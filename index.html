@@ -170,10 +170,19 @@
 
   /* PRINT STYLES */
   @media print {
-    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    /* Перевизначаємо CSS-змінні — вся темна тема стає світлою автоматично */
+    :root {
+      --bg: #ffffff;
+      --bg2: #f8f8f8;
+      --bg3: #eeeeee;
+      --text: #111111;
+      --text2: #555555;
+      --border: #cccccc;
+      --danger: #cc0000;
+    }
     .sidebar, .burger, .sidebar-overlay { display: none !important; }
     .main { margin-left: 0 !important; width: 100% !important; padding-bottom: 0 !important; }
-    body { background: #fff !important; color: #000 !important; display: block !important; }
+    body { display: block !important; }
 
     /* Розкриваємо всі секції */
     .section-body { display: block !important; }
@@ -200,13 +209,10 @@
     .subsection-arrow { display: none !important; }
     .subsection-body { padding: 12px 16px 16px 24px !important; }
 
-    /* Текст */
-    .body-text, .bullet-item, .check-text, .role-item, .decision-text,
-    .section-title, .subsection-title, .section-intro, .kpi-label,
-    .principle-sub, .kpi-category, .checklist-label { color: #000 !important; }
-    .important-box { color: #c00 !important; border-left-color: #c00 !important; background: #fff5f5 !important; }
-    .kpi-value { color: #ff6a00 !important; }
-    .hero-sub, .hero-badge { color: #555 !important; }
+    /* Акцентний помаранчевий залишаємо */
+    .kpi-value { color: var(--accent) !important; }
+    .section-num { background: rgba(255,106,0,0.1) !important; }
+    .important-box { background: #fff5f5 !important; }
 
     /* Розриви сторінок */
     .section-card { page-break-before: auto; }
