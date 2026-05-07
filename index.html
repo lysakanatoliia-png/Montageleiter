@@ -170,14 +170,54 @@
 
   /* PRINT STYLES */
   @media print {
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .sidebar, .burger, .sidebar-overlay { display: none !important; }
-    .main { margin-left: 0 !important; }
+    .main { margin-left: 0 !important; width: 100% !important; padding-bottom: 0 !important; }
+    body { background: #fff !important; color: #000 !important; display: block !important; }
+
+    /* Розкриваємо всі секції */
     .section-body { display: block !important; }
     .subsection-body { display: block !important; }
-    .section-card { border: 1px solid #ccc !important; margin-bottom: 8px !important; }
-    body { background: #fff !important; color: #000 !important; }
-    .body-text, .bullet-item, .check-text, .subsection-title, .section-title { color: #000 !important; }
+
+    /* Скидаємо позиції і overflow */
+    .hero { position: static !important; overflow: visible !important; padding: 20px 24px 16px !important; }
+    .hero::before { display: none !important; }
+    .timeline-wrap { display: none !important; }
+
+    /* Карточки */
+    .section-card {
+      background: #fff !important;
+      border: 1px solid #ddd !important;
+      border-radius: 6px !important;
+      margin-bottom: 12px !important;
+      overflow: visible !important;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .section-header { background: #f5f5f5 !important; }
+    .section-arrow { display: none !important; }
+    .subsection { border-bottom: 1px solid #eee !important; }
+    .subsection-arrow { display: none !important; }
+    .subsection-body { padding: 12px 16px 16px 24px !important; }
+
+    /* Текст */
+    .body-text, .bullet-item, .check-text, .role-item, .decision-text,
+    .section-title, .subsection-title, .section-intro, .kpi-label,
+    .principle-sub, .kpi-category, .checklist-label { color: #000 !important; }
+    .important-box { color: #c00 !important; border-left-color: #c00 !important; background: #fff5f5 !important; }
     .kpi-value { color: #ff6a00 !important; }
+    .hero-sub, .hero-badge { color: #555 !important; }
+
+    /* Розриви сторінок */
+    .section-card { page-break-before: auto; }
+    .section-card + .section-card { page-break-before: auto; }
+    h1, .section-title { page-break-after: avoid; }
+    .kpi-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
+    .roles-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
+    .decision-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; }
+
+    /* Вирівнювання */
+    .content { padding: 12px 16px !important; }
   }
 
   /* ── HAMBURGER BUTTON ───────────────────────────────────────────────────── */
@@ -1336,7 +1376,7 @@
       s4_3_b1: "führt die technische Kommunikation mit dem Auftraggeber-Vertreter direkt am Objekt;", s4_3_b2: "beantwortet technische Fragen während der Arbeitsausführung;", s4_3_b3: "informiert den Auftraggeber-Vertreter über den Arbeitsfortschritt und Zwischenergebnisse.",
       s4_3_warn: "WICHTIG: Der Montageleiter stimmt keine Kosten-, Mengen- oder Friständerungen direkt mit dem Kunden ab. Alle derartigen Fragen werden an den B2B-Manager weitergeleitet.",
       s4_4_title: "4.4. Kontrolle der Übereinstimmung mit technischer Aufgabe und DIN-Normen",
-      s4_4_p1: "Der Montageleiter vergleicht die tatsächlichen Arbeiten ständig mit der technischen Aufgabenstellung, den Schemata und den Unternehmensstandards. Jede Abweichung wird nicht ignoriert, nicht „still gelöst" und muss zwingend mit der Unternehmensleitung mit Begründung abgestimmt werden.",
+      s4_4_p1: "Der Montageleiter vergleicht die tatsächlichen Arbeiten ständig mit der technischen Aufgabenstellung, den Schemata und den Unternehmensstandards. Jede Abweichung wird nicht ignoriert, nicht „still gelöst“ und muss zwingend mit der Unternehmensleitung mit Begründung abgestimmt werden.",
       s4_5_title: "4.5. Materialarbeit am Objekt + CRM Checkliste (P4)",
       s4_5_p1: "Der Montageleiter kontrolliert die Materialübereinstimmung mit der Spezifikation, die korrekte Verwendung und minimiert Mehrverbrauch. Bei Mangel oder Diskrepanz: dokumentiert, initiiert Abstimmung mit dem Assistenz-Ingenieur und stimmt zwingend mit der Unternehmensleitung mit Begründung ab; trifft keine qualitätsbeeinflussenden Entscheidungen ohne Dokumentation.",
       chk_p4_label: "CRM Checkliste (P4)", chk_p4_1: "Start der Montagearbeiten im CRM dokumentiert", chk_p4_2: "Laufende Dokumentation des Arbeitsfortschritts (Fotos, Kommentare)", chk_p4_3: "Bei Abweichungen — dokumentiert und an Leitung weitergeleitet", chk_p4_4: "Abschluss der Montagearbeiten im CRM dokumentiert",
@@ -1368,7 +1408,7 @@
       decision_no_label: "Wird an die Leitung weitergeleitet", decision_no_text: "Beeinflusst Arbeitsumfang, Materialien oder Fristen → an Assistenz-Ingenieur und B2B-Manager über CRM",
       s6_4_title: "6.4. Verbot nicht abgestimmter Änderungen",
       s6_4_p1: "Dem Montageleiter ist verboten:",
-      s6_4_b1: "technische Lösungen ohne Dokumentation zu ändern;", s6_4_b2: "Entscheidungen „mündlich" zu treffen;", s6_4_b3: "Änderungen direkt mit dem Kunden abzustimmen;", s6_4_b4: "technische Probleme zu verbergen.",
+      s6_4_b1: "technische Lösungen ohne Dokumentation zu ändern;", s6_4_b2: "Entscheidungen „mündlich“ zu treffen;", s6_4_b3: "Änderungen direkt mit dem Kunden abzustimmen;", s6_4_b4: "technische Probleme zu verbergen.",
       s6_4_warn: "Jede nicht dokumentierte Änderung = Risiko für das Unternehmen.",
       s6_5_title: "6.5. Kommunikation mit anderen Rollen",
       s6_5_p1: "Alle Kommunikationen des Montageleiters mit dem Assistenz-Ingenieur, dem B2B-Manager und der Leitung erfolgen über CRM oder mit anschließender CRM-Dokumentation. Mündliche Vereinbarungen ohne Systemdokumentation haben keine Gültigkeit.",
@@ -1401,9 +1441,9 @@
       s7_7_b1: "benachrichtigt den B2B-Manager über CRM, dass das Objekt technisch abgeschlossen ist;", s7_7_b2: "bestätigt, dass das Objekt zur finalen Kundenkommunikation bereit ist;", s7_7_b3: "schließt seine Produktionsaufgaben im CRM ab.",
       s7_8_title: "7.8. Formeller Objektabschluss + CRM Checkliste (P6)",
       s7_8_p1: "Der Montageleiter:",
-      s7_8_b1: "ändert den Objektstatus im CRM auf „Produktionell abgeschlossen / Technisch geschlossen";", s7_8_b2: "hinterlässt den finalen technischen Kommentar;", s7_8_b3: "schließt alle seine Objektaufgaben ab.",
+      s7_8_b1: "ändert den Objektstatus im CRM auf „Produktionell abgeschlossen / Technisch geschlossen“;", s7_8_b2: "hinterlässt den finalen technischen Kommentar;", s7_8_b3: "schließt alle seine Objektaufgaben ab.",
       s7_8_p2: "Damit ist die Beteiligung des Montageleiters in der aktiven Projektphase abgeschlossen.",
-      chk_p6_label: "CRM Checkliste (P6)", chk_p6_1: "Qualität der ausgeführten Arbeiten am Objekt geprüft", chk_p6_2: "Inbetriebnahme der Systeme durchgeführt", chk_p6_3: "Abnahmeprotokoll mit dem Auftraggeber-Vertreter unterzeichnet", chk_p6_4: "Ausführungsschemata des Assistenz-Ingenieurs genehmigt", chk_p6_5: "Finale Daten und Fotos ins CRM eingetragen", chk_p6_6: "B2B-Manager über Abschluss der Produktionsphase informiert", chk_p6_7: "Objektstatus auf „Technisch geschlossen" geändert",
+      chk_p6_label: "CRM Checkliste (P6)", chk_p6_1: "Qualität der ausgeführten Arbeiten am Objekt geprüft", chk_p6_2: "Inbetriebnahme der Systeme durchgeführt", chk_p6_3: "Abnahmeprotokoll mit dem Auftraggeber-Vertreter unterzeichnet", chk_p6_4: "Ausführungsschemata des Assistenz-Ingenieurs genehmigt", chk_p6_5: "Finale Daten und Fotos ins CRM eingetragen", chk_p6_6: "B2B-Manager über Abschluss der Produktionsphase informiert", chk_p6_7: "Objektstatus auf „Technisch geschlossen“ geändert",
       // s8
       s8_title: "KPI des Montageleiters",
       s8_intro: "Ziel des Abschnitts: Messbare Leistungsindikatoren für die Arbeit des Montageleiters zur Ergebnisbewertung und Qualitätskontrolle festhalten.",
