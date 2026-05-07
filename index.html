@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -159,6 +159,27 @@
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
+  /* LANG SWITCHER */
+  .lang-switcher { display: flex; gap: 6px; padding: 12px 20px; border-top: 1px solid var(--border); }
+  .lang-btn { flex: 1; padding: 7px 0; border-radius: 6px; border: 1px solid var(--border); background: var(--bg3); color: var(--text2); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; letter-spacing: 1px; }
+  .lang-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* PRINT BUTTON */
+  .print-btn { display: flex; align-items: center; gap: 8px; width: calc(100% - 40px); margin: 0 20px 16px; padding: 9px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg3); color: var(--text2); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .print-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* PRINT STYLES */
+  @media print {
+    .sidebar, .burger, .sidebar-overlay { display: none !important; }
+    .main { margin-left: 0 !important; }
+    .section-body { display: block !important; }
+    .subsection-body { display: block !important; }
+    .section-card { border: 1px solid #ccc !important; margin-bottom: 8px !important; }
+    body { background: #fff !important; color: #000 !important; }
+    .body-text, .bullet-item, .check-text, .subsection-title, .section-title { color: #000 !important; }
+    .kpi-value { color: #ff6a00 !important; }
+  }
+
   /* ── HAMBURGER BUTTON ───────────────────────────────────────────────────── */
   .burger {
     display: none;
@@ -312,17 +333,22 @@
     <div class="role">Montageleiter</div>
   </div>
   <nav>
-    <a class="nav-item active" href="#intro" onclick="setActive(this)"><span class="nav-num">📋</span> Введение</a>
-    <a class="nav-item" href="#s1" onclick="setActive(this)"><span class="nav-num">1</span> Место в процессе</a>
-    <a class="nav-item" href="#s2" onclick="setActive(this)"><span class="nav-num">2</span> До производства</a>
-    <a class="nav-item" href="#s3" onclick="setActive(this)"><span class="nav-num">3</span> Получение объекта</a>
-    <a class="nav-item" href="#s4" onclick="setActive(this)"><span class="nav-num">4</span> Выполнение работ</a>
-    <a class="nav-item" href="#s5" onclick="setActive(this)"><span class="nav-num">5</span> Доп. работы</a>
-    <a class="nav-item" href="#s6" onclick="setActive(this)"><span class="nav-num">6</span> Отклонения</a>
-    <a class="nav-item" href="#s7" onclick="setActive(this)"><span class="nav-num">7</span> Завершение</a>
-    <a class="nav-item" href="#s8" onclick="setActive(this)"><span class="nav-num">8</span> KPI</a>
+    <a class="nav-item active" href="#intro" onclick="setActive(this)"><span class="nav-num">📋</span> <span data-i18n="nav_intro">Einleitung</span></a>
+    <a class="nav-item" href="#s1" onclick="setActive(this)"><span class="nav-num">1</span> <span data-i18n="nav_s1">Prozessposition</span></a>
+    <a class="nav-item" href="#s2" onclick="setActive(this)"><span class="nav-num">2</span> <span data-i18n="nav_s2">Vor Produktion</span></a>
+    <a class="nav-item" href="#s3" onclick="setActive(this)"><span class="nav-num">3</span> <span data-i18n="nav_s3">Übernahme Objekt</span></a>
+    <a class="nav-item" href="#s4" onclick="setActive(this)"><span class="nav-num">4</span> <span data-i18n="nav_s4">Ausführung</span></a>
+    <a class="nav-item" href="#s5" onclick="setActive(this)"><span class="nav-num">5</span> <span data-i18n="nav_s5">Zusatzarbeiten</span></a>
+    <a class="nav-item" href="#s6" onclick="setActive(this)"><span class="nav-num">6</span> <span data-i18n="nav_s6">Abweichungen</span></a>
+    <a class="nav-item" href="#s7" onclick="setActive(this)"><span class="nav-num">7</span> <span data-i18n="nav_s7">Abschluss</span></a>
+    <a class="nav-item" href="#s8" onclick="setActive(this)"><span class="nav-num">8</span> <span data-i18n="nav_s8">KPI</span></a>
   </nav>
   <div class="sidebar-footer">Montageleiter V1 · SKYBUD</div>
+  <button class="print-btn" onclick="window.print()">🖨 <span data-i18n="print">Drucken</span></button>
+  <div class="lang-switcher">
+    <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
+    <button class="lang-btn" id="btn-ru" onclick="setLang('ru')">RU</button>
+  </div>
 </aside>
 
 <!-- MAIN -->
@@ -330,29 +356,29 @@
 
   <!-- HERO -->
   <div class="hero" id="intro">
-    <div class="hero-badge">● Должностная инструкция</div>
-    <h1>Montageleiter <span>– organisiert Montageabläufe und Personal</span></h1>
-    <div class="hero-sub">Должностная инструкция и модель производственных процессов · SKYBUD</div>
-    <div class="hero-version">Версия V1</div>
+    <div class="hero-badge">● <span data-i18n="hero_badge">Stellenbeschreibung</span></div>
+    <h1>Montageleiter <span data-i18n="hero_span">– organisiert Montageabläufe und Personal</span></h1>
+    <div class="hero-sub" data-i18n="hero_sub">Stellenbeschreibung und Produktionsprozessmodell · SKYBUD</div>
+    <div class="hero-version" data-i18n="hero_version">Version V1</div>
   </div>
 
   <!-- TIMELINE -->
   <div class="timeline-wrap">
-    <div class="timeline-title">Участие Montageleiters в воронке CRM</div>
+    <div class="timeline-title" data-i18n="tl_title">Beteiligung des Montageleiters am CRM-Funnel</div>
     <div class="timeline">
-      <div class="tl-item"><div class="tl-node"><div class="tl-dot optional">L3</div><div class="tl-label optional">Бриф<br>(выезд)</div></div><div class="tl-line active"></div></div>
-      <div class="tl-item"><div class="tl-node"><div class="tl-dot optional">C5</div><div class="tl-label optional">Расчёт<br>(консульт.)</div></div><div class="tl-line active"></div></div>
-      <div class="tl-item"><div class="tl-node"><div class="tl-dot optional">C9</div><div class="tl-label optional">График<br>(консульт.)</div></div><div class="tl-line active"></div></div>
-      <div class="tl-item"><div class="tl-node"><div class="tl-dot optional">P2</div><div class="tl-label optional">Проектир.<br>(выезд)</div></div><div class="tl-line active"></div></div>
-      <div class="tl-item"><div class="tl-node"><div class="tl-dot active">P3</div><div class="tl-label active">Подготовка<br>к старту</div></div><div class="tl-line active"></div></div>
-      <div class="tl-item"><div class="tl-node"><div class="tl-dot active">P4</div><div class="tl-label active">Монтаж</div></div><div class="tl-line active"></div></div>
-      <div class="tl-item"><div class="tl-node"><div class="tl-dot active">P5</div><div class="tl-label active">Доп.<br>работы</div></div><div class="tl-line active"></div></div>
-      <div class="tl-item"><div class="tl-node"><div class="tl-dot active">P6</div><div class="tl-label active">Завершение<br>работ</div></div><div class="tl-line active"></div></div>
-      <div class="tl-item"><div class="tl-node"><div class="tl-dot active">P7</div><div class="tl-label active">Сдача<br>клиенту</div></div></div>
+      <div class="tl-item"><div class="tl-node"><div class="tl-dot optional">L3</div><div class="tl-label optional" data-i18n="tl_l3">Briefing<br>(Besuch)</div></div><div class="tl-line active"></div></div>
+      <div class="tl-item"><div class="tl-node"><div class="tl-dot optional">C5</div><div class="tl-label optional" data-i18n="tl_c5">Kalkulation<br>(Beratung)</div></div><div class="tl-line active"></div></div>
+      <div class="tl-item"><div class="tl-node"><div class="tl-dot optional">C9</div><div class="tl-label optional" data-i18n="tl_c9">Zeitplan<br>(Beratung)</div></div><div class="tl-line active"></div></div>
+      <div class="tl-item"><div class="tl-node"><div class="tl-dot optional">P2</div><div class="tl-label optional" data-i18n="tl_p2">Planung<br>(Besuch)</div></div><div class="tl-line active"></div></div>
+      <div class="tl-item"><div class="tl-node"><div class="tl-dot active">P3</div><div class="tl-label active" data-i18n="tl_p3">Vorbereitung<br>Start</div></div><div class="tl-line active"></div></div>
+      <div class="tl-item"><div class="tl-node"><div class="tl-dot active">P4</div><div class="tl-label active" data-i18n="tl_p4">Montage</div></div><div class="tl-line active"></div></div>
+      <div class="tl-item"><div class="tl-node"><div class="tl-dot active">P5</div><div class="tl-label active" data-i18n="tl_p5">Zusatz-<br>arbeiten</div></div><div class="tl-line active"></div></div>
+      <div class="tl-item"><div class="tl-node"><div class="tl-dot active">P6</div><div class="tl-label active" data-i18n="tl_p6">Arbeits-<br>abschluss</div></div><div class="tl-line active"></div></div>
+      <div class="tl-item"><div class="tl-node"><div class="tl-dot active">P7</div><div class="tl-label active" data-i18n="tl_p7">Übergabe<br>Kunde</div></div></div>
     </div>
     <div style="margin-top:12px;display:flex;gap:20px;flex-wrap:wrap;">
-      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);"><div style="width:12px;height:12px;border-radius:3px;background:var(--accent);"></div> Основная роль</div>
-      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);"><div style="width:12px;height:12px;border-radius:3px;background:rgba(255,140,56,0.4);border:1.5px solid var(--accent2);"></div> При необходимости</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);"><div style="width:12px;height:12px;border-radius:3px;background:var(--accent);"></div> <span data-i18n="tl_legend_main">Hauptrolle</span></div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);"><div style="width:12px;height:12px;border-radius:3px;background:rgba(255,140,56,0.4);border:1.5px solid var(--accent2);"></div> <span data-i18n="tl_legend_opt">Bei Bedarf</span></div>
     </div>
   </div>
 
@@ -363,22 +389,22 @@
     <div class="section-card section-anchor open" id="intro-section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-num" style="font-size:18px;">📋</div>
-        <div class="section-title-wrap"><div class="section-title">Введение</div></div>
+        <div class="section-title-wrap"><div class="section-title" data-i18n="s0_title">Einleitung</div></div>
         <div class="section-arrow">▾</div>
       </div>
       <div class="section-body">
         <div style="padding:20px 24px;">
-          <p class="body-text">Montageleiter — это производственная техническая должность компании, которая отвечает за фактическую реализацию проектов на строительных объектах, соблюдение технического задания, контроль качества выполнения работ и техническое закрытие объектов.</p>
-          <p class="body-text">Роль Montageleiters является ключевой в производственной цепочке компании. Montageleiter участвует в проекте начиная с этапа сбора исходных данных (при необходимости) и заканчивает участие после технического закрытия объекта в CRM.</p>
-          <p class="body-text">Montageleiter:</p>
+          <p class="body-text" data-i18n="intro_p1">Der Montageleiter ist eine technische Produktionsstelle im Unternehmen, die für die tatsächliche Umsetzung von Projekten auf Baustellen, die Einhaltung der technischen Aufgabenstellung, die Qualitätskontrolle der Arbeitsausführung und den technischen Objektabschluss verantwortlich ist.</p>
+          <p class="body-text" data-i18n="intro_p2">Die Rolle des Montageleiters ist entscheidend in der Produktionskette des Unternehmens. Der Montageleiter ist am Projekt von der Phase der Datenerfassung (bei Bedarf) bis zum technischen Abschluss des Objekts im CRM beteiligt.</p>
+          <p class="body-text" data-i18n="intro_p3">Der Montageleiter:</p>
           <div class="bullet-list">
-            <div class="bullet-item"><span class="bullet-icon">•</span> работает непосредственно на объектах или в плотном взаимодействии с ними;</div>
-            <div class="bullet-item"><span class="bullet-icon">•</span> принимает технические решения в процессе выполнения работ;</div>
-            <div class="bullet-item"><span class="bullet-icon">•</span> фиксирует фактическое состояние, отклонения и результаты работ;</div>
-            <div class="bullet-item"><span class="bullet-icon">•</span> обеспечивает соответствие выполнения работ техническому заданию и стандартам компании.</div>
+            <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="intro_b1">arbeitet direkt auf den Objekten oder in enger Zusammenarbeit mit ihnen;</span></div>
+            <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="intro_b2">trifft technische Entscheidungen während der Arbeitsausführung;</span></div>
+            <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="intro_b3">dokumentiert den tatsächlichen Zustand, Abweichungen und Arbeitsergebnisse;</span></div>
+            <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="intro_b4">gewährleistet die Übereinstimmung der Ausführung mit der technischen Aufgabenstellung und den Unternehmensstandards.</span></div>
           </div>
-          <p class="body-text">Montageleiter не занимается продажами, коммерческими переговорами или формированием коммерческих предложений. Все вопросы стоимости, договоров и оплат координируются менеджером B2B. Все технические расчеты, схемы и спецификации готовятся инженером-ассистентом.</p>
-          <p class="body-text">CRM-система является обязательным рабочим инструментом Montageleiters. Через CRM Montageleiter получает информацию об объекте, предоставляет обратную связь, фиксирует ход работ и технические решения, закрывает объект после завершения работ.</p>
+          <p class="body-text" data-i18n="intro_p4">Der Montageleiter ist nicht für Verkauf, kommerzielle Verhandlungen oder die Erstellung von Angeboten zuständig. Alle Fragen zu Kosten, Verträgen und Zahlungen werden vom B2B-Manager koordiniert. Alle technischen Berechnungen, Schemata und Spezifikationen werden vom Assistenz-Ingenieur erstellt.</p>
+          <p class="body-text" data-i18n="intro_p5">Das CRM-System ist ein obligatorisches Arbeitswerkzeug des Montageleiters. Über das CRM erhält der Montageleiter Objektinformationen, gibt Rückmeldungen, dokumentiert den Arbeitsfortschritt und technische Entscheidungen und schließt das Objekt nach Fertigstellung ab.</p>
         </div>
       </div>
     </div>
@@ -387,7 +413,7 @@
     <div class="section-card section-anchor" id="s1">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-num">1</div>
-        <div class="section-title-wrap"><div class="section-title">Место Montageleiters в общем бизнес-процессе</div></div>
+        <div class="section-title-wrap"><div class="section-title" data-i18n="s1_title">Position des Montageleiters im Gesamtgeschäftsprozess</div></div>
         <div class="section-arrow">▾</div>
       </div>
       <div class="section-body">
@@ -395,72 +421,72 @@
         <div class="subsection open">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">1.1. Роль Montageleiters в цепочке реализации проекта</div>
+            <div class="subsection-title" data-i18n="s1_1_title">1.1. Rolle des Montageleiters in der Projektumsetzungskette</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Компания работает по четко разделенной модели ответственности:</p>
+            <p class="body-text" data-i18n="s1_1_p1">Das Unternehmen arbeitet nach einem klar getrennten Verantwortungsmodell:</p>
             <div class="roles-grid">
               <div class="role-card">
-                <div class="role-name">Менеджер B2B</div>
-                <div class="role-item">привлечение клиента;</div>
-                <div class="role-item">коммуникация;</div>
-                <div class="role-item">коммерческое предложение;</div>
-                <div class="role-item">договор и оплаты.</div>
+                <div class="role-name" data-i18n="role_b2b_name">B2B-Manager</div>
+                <div class="role-item" data-i18n="role_b2b_1">Kundengewinnung;</div>
+                <div class="role-item" data-i18n="role_b2b_2">Kommunikation;</div>
+                <div class="role-item" data-i18n="role_b2b_3">Angebot;</div>
+                <div class="role-item" data-i18n="role_b2b_4">Vertrag und Zahlungen.</div>
               </div>
               <div class="role-card">
-                <div class="role-name">Инженер-ассистент</div>
-                <div class="role-item">технический анализ;</div>
-                <div class="role-item">расчеты;</div>
-                <div class="role-item">схемы;</div>
-                <div class="role-item">спецификации;</div>
-                <div class="role-item">подготовка технического пакета.</div>
+                <div class="role-name" data-i18n="role_eng_name">Assistenz-Ingenieur</div>
+                <div class="role-item" data-i18n="role_eng_1">Technische Analyse;</div>
+                <div class="role-item" data-i18n="role_eng_2">Berechnungen;</div>
+                <div class="role-item" data-i18n="role_eng_3">Schemata;</div>
+                <div class="role-item" data-i18n="role_eng_4">Spezifikationen;</div>
+                <div class="role-item" data-i18n="role_eng_5">Erstellung des technischen Pakets.</div>
               </div>
               <div class="role-card highlight">
-                <div class="role-name">Montageleiter ← вы</div>
-                <div class="role-item">реализация проекта на объекте;</div>
-                <div class="role-item">фактическое выполнение работ;</div>
-                <div class="role-item">технический контроль;</div>
-                <div class="role-item">фиксация реального состояния;</div>
-                <div class="role-item">техническое закрытие объекта.</div>
+                <div class="role-name" data-i18n="role_ml_name">Montageleiter ← Sie</div>
+                <div class="role-item" data-i18n="role_ml_1">Projektumsetzung auf dem Objekt;</div>
+                <div class="role-item" data-i18n="role_ml_2">Tatsächliche Arbeitsausführung;</div>
+                <div class="role-item" data-i18n="role_ml_3">Technische Kontrolle;</div>
+                <div class="role-item" data-i18n="role_ml_4">Dokumentation des Ist-Zustands;</div>
+                <div class="role-item" data-i18n="role_ml_5">Technischer Objektabschluss.</div>
               </div>
             </div>
-            <p class="body-text">Montageleiter является финальным техническим звеном, которое превращает документацию и планы в выполненный результат.</p>
+            <p class="body-text" data-i18n="s1_1_p2">Der Montageleiter ist das letzte technische Glied, das Dokumentation und Pläne in ein ausgeführtes Ergebnis umwandelt.</p>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">1.2. Основная зона ответственности Montageleiters</div>
+            <div class="subsection-title" data-i18n="s1_2_title">1.2. Hauptverantwortungsbereich des Montageleiters</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter несёт полную ответственность за организацию, координацию и технический результат выполнения монтажных и сервисных работ на объекте.</p>
-            <p class="body-text">В рамках своей роли он обеспечивает:</p>
+            <p class="body-text" data-i18n="s1_2_p1">Der Montageleiter trägt die volle Verantwortung für die Organisation, Koordination und das technische Ergebnis der Montage- und Servicearbeiten am Objekt.</p>
+            <p class="body-text" data-i18n="s1_2_p2">Im Rahmen seiner Rolle gewährleistet er:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> соответствие выполненных работ техническому заданию и проектной документации;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> корректность и технологичность монтажа всех систем в соответствии с установленными стандартами;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> системный контроль качества работ на всех этапах выполнения;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> своевременное выявление, фиксацию и эскалацию технических отклонений;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> оперативное информирование о рисках, проблемах и возможных задержках;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> точный учёт фактически выполненных объёмов работ и использованных материалов;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> корректное техническое закрытие объекта и ведение данных в CRM-системе.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_b1">Übereinstimmung der ausgeführten Arbeiten mit der technischen Aufgabenstellung und der Projektdokumentation;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_b2">Korrektheit und Technologietreue der Montage aller Systeme gemäß den geltenden Standards;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_b3">systematische Qualitätskontrolle der Arbeiten in allen Ausführungsphasen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_b4">rechtzeitige Erkennung, Dokumentation und Eskalation technischer Abweichungen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_b5">proaktive Information über Risiken, Probleme und mögliche Verzögerungen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_b6">genaue Erfassung der tatsächlich ausgeführten Arbeitsmengen und verwendeten Materialien;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_b7">korrekten technischen Objektabschluss und Datenpflege im CRM-System.</span></div>
             </div>
-            <p class="body-text">Montageleiter управляет процессом, а не выполняет работы самостоятельно. Его ключевая задача — обеспечить эффективную реализацию проекта и достижение конечного результата.</p>
-            <p class="body-text">В операционной деятельности он:</p>
+            <p class="body-text" data-i18n="s1_2_p3">Der Montageleiter steuert den Prozess, führt die Arbeiten jedoch nicht selbst aus. Seine Kernaufgabe ist die effiziente Projektumsetzung und das Erreichen des Endergebnisses.</p>
+            <p class="body-text" data-i18n="s1_2_p4">Im operativen Betrieb:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> планирует, организует и контролирует выполнение монтажных и сервисных работ;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> координирует работу монтажных бригад, обеспечивая их слаженное взаимодействие;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> контролирует сроки, качество и итоговый результат выполнения задач;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> выступает основным техническим контактным лицом для клиента;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> выстраивает структурированную работу и обеспечивает соблюдение процессов;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> несёт ответственность за полную техническую реализацию проекта;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> действует как координатор и технический руководитель, а не как исполнитель работ;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> ориентирован на долгосрочное сотрудничество, стабильность процессов и качество реализации проектов.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_c1">plant, organisiert und kontrolliert die Ausführung der Montage- und Servicearbeiten;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_c2">koordiniert die Arbeit der Montageteams und sorgt für deren reibungslose Zusammenarbeit;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_c3">kontrolliert Fristen, Qualität und das Endergebnis der Aufgabenerfüllung;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_c4">fungiert als technischer Hauptansprechpartner für den Kunden;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_c5">strukturiert die Arbeit und stellt die Einhaltung von Prozessen sicher;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_c6">trägt die Verantwortung für die vollständige technische Projektumsetzung;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_c7">handelt als Koordinator und technischer Leiter, nicht als Ausführender;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_2_c8">ist auf langfristige Zusammenarbeit, Prozesstabilität und Qualität der Projektumsetzung ausgerichtet.</span></div>
             </div>
             <div class="principle-box">
-              <div class="principle-quote" style="font-size:15px;">Ответственность за процесс и конечный результат — включая людей, сроки, качество и техническую реализацию.</div>
+              <div class="principle-quote" style="font-size:15px;" data-i18n="s1_2_principle">Verantwortung für Prozess und Endergebnis — einschließlich Personen, Fristen, Qualität und technische Umsetzung.</div>
             </div>
           </div>
         </div>
@@ -468,34 +494,34 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">1.3. Границы ответственности Montageleiters</div>
+            <div class="subsection-title" data-i18n="s1_3_title">1.3. Verantwortungsgrenzen des Montageleiters</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter не отвечает за:</p>
+            <p class="body-text" data-i18n="s1_3_p1">Der Montageleiter ist nicht verantwortlich für:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> продажу услуг;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> формирование коммерческого предложения;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> переговоры о стоимости;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> подписание договоров;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> получение оплат от клиента.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_3_b1">Verkauf von Dienstleistungen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_3_b2">Erstellung von Angeboten;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_3_b3">Preisverhandlungen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_3_b4">Vertragsunterzeichnung;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s1_3_b5">Zahlungseingang vom Kunden.</span></div>
             </div>
-            <p class="body-text">Все вопросы, выходящие за пределы технической реализации, Montageleiter передает: инженеру-ассистенту — если вопрос технический; менеджеру B2B — если вопрос коммерческий или клиентский.</p>
+            <p class="body-text" data-i18n="s1_3_p2">Alle Fragen außerhalb der technischen Umsetzung leitet der Montageleiter weiter: an den Assistenz-Ingenieur — bei technischen Fragen; an den B2B-Manager — bei kommerziellen oder kundenbezogenen Fragen.</p>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">1.4. Принцип работы Montageleiters</div>
+            <div class="subsection-title" data-i18n="s1_4_title">1.4. Arbeitsprinzip des Montageleiters</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
             <div class="principle-box">
-              <div class="principle-quote">«Факт важнее предположения»</div>
+              <div class="principle-quote" data-i18n="s1_4_quote">«Fakten sind wichtiger als Vermutungen»</div>
             </div>
-            <p class="body-text">Все действия, решения и изменения фиксируются, аргументируются и вносятся в CRM.</p>
-            <p class="body-text">Работа, которая не зафиксирована в CRM, считается невыполненной.</p>
+            <p class="body-text" data-i18n="s1_4_p1">Alle Handlungen, Entscheidungen und Änderungen werden dokumentiert, begründet und ins CRM eingetragen.</p>
+            <p class="body-text" data-i18n="s1_4_p2">Arbeit, die nicht im CRM dokumentiert ist, gilt als nicht ausgeführt.</p>
           </div>
         </div>
       </div>
@@ -505,33 +531,33 @@
     <div class="section-card section-anchor" id="s2">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-num">2</div>
-        <div class="section-title-wrap"><div class="section-title">Участие Montageleiters на дооперационных этапах</div></div>
+        <div class="section-title-wrap"><div class="section-title" data-i18n="s2_title">Beteiligung des Montageleiters in der Vorproduktionsphase</div></div>
         <div class="section-arrow">▾</div>
       </div>
       <div class="section-body">
-        <div class="section-intro">Montageleiter подключается к проекту до стадии производства в случаях, когда для принятия решений необходима техническая экспертиза непосредственно с объекта или из практического опыта.</div>
+        <div class="section-intro" data-i18n="s2_intro">Der Montageleiter wird vor der Produktionsphase in das Projekt einbezogen, wenn für Entscheidungen technisches Fachwissen direkt vom Objekt oder aus praktischer Erfahrung erforderlich ist.</div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">2.1. Выезд на объект на этапе сбора брифа (L3)</div>
+            <div class="subsection-title" data-i18n="s2_1_title">2.1. Objektbesuch in der Briefing-Phase (L3)</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Если менеджер B2B не может собрать достаточно исходных данных дистанционно, Montageleiter осуществляет выезд на объект.</p>
-            <p class="body-text">Montageleiter:</p>
+            <p class="body-text" data-i18n="s2_1_p1">Wenn der B2B-Manager nicht genügend Ausgangsdaten aus der Ferne sammeln kann, fährt der Montageleiter zum Objekt.</p>
+            <p class="body-text" data-i18n="s2_1_p2">Der Montageleiter:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> выезжает на объект для первичного технического осмотра;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> фиксирует фактические размеры и параметры объекта;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> делает фото и видео для технической документации;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> передаёт собранные данные инженеру-ассистенту через CRM.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_1_b1">fährt zum Objekt für die erste technische Besichtigung;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_1_b2">dokumentiert die tatsächlichen Maße und Parameter des Objekts;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_1_b3">erstellt Fotos und Videos für die technische Dokumentation;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_1_b4">übergibt die gesammelten Daten über CRM an den Assistenz-Ingenieur.</span></div>
             </div>
-            <div class="checklist-label">CRM Чек-лист (L3)</div>
+            <div class="checklist-label" data-i18n="chk_l3_label">CRM Checkliste (L3)</div>
             <div class="checklist">
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Осуществил выезд на объект</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Зафиксировал размеры и параметры объекта</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Добавил фото и видео объекта в карточку CRM</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Передал данные инженеру-ассистенту</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_l3_1">Objektbesuch durchgeführt</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_l3_2">Maße und Parameter des Objekts dokumentiert</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_l3_3">Fotos und Videos in die CRM-Karte hochgeladen</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_l3_4">Daten an den Assistenz-Ingenieur übergeben</div></div>
             </div>
           </div>
         </div>
@@ -539,16 +565,16 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">2.2. Технические консультации при расчёте проектно-сметной документации (C5)</div>
+            <div class="subsection-title" data-i18n="s2_2_title">2.2. Technische Beratung bei der Kalkulation (C5)</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">При подготовке сметы инженер-ассистент может запрашивать у Montageleiters практическую экспертизу.</p>
-            <p class="body-text">Montageleiter:</p>
+            <p class="body-text" data-i18n="s2_2_p1">Bei der Kostenkalkulation kann der Assistenz-Ingenieur beim Montageleiter praktisches Fachwissen anfragen.</p>
+            <p class="body-text" data-i18n="s2_2_p2">Der Montageleiter:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> предоставляет технические консультации инженеру-ассистенту по сложным узлам или нестандартным решениям;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> уточняет реалистичные трудозатраты (человеко-часы) на основе практического опыта;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> фиксирует свои консультации в CRM при необходимости.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_2_b1">berät den Assistenz-Ingenieur zu komplexen Knotenpunkten oder Sonderlösungen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_2_b2">präzisiert realistische Arbeitsaufwände (Mannstunden) auf Basis praktischer Erfahrung;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_2_b3">dokumentiert seine Beratungen bei Bedarf im CRM.</span></div>
             </div>
           </div>
         </div>
@@ -556,17 +582,17 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">2.3. Консультации при составлении графика выполнения работ (C9)</div>
+            <div class="subsection-title" data-i18n="s2_3_title">2.3. Beratung bei der Terminplanung (C9)</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">После согласования коммерческого предложения инженер-ассистент формирует график работ. Montageleiter подключается при необходимости.</p>
-            <p class="body-text">Montageleiter:</p>
+            <p class="body-text" data-i18n="s2_3_p1">Nach der Freigabe des Angebots erstellt der Assistenz-Ingenieur den Arbeitsplan. Der Montageleiter wird bei Bedarf einbezogen.</p>
+            <p class="body-text" data-i18n="s2_3_p2">Der Montageleiter:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> консультирует инженера-ассистента по реалистичным срокам выполнения отдельных этапов;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> вносит корректировки в график на основе практического опыта и специфики объекта;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> несёт ответственность за разработку и актуализацию графика выполнения работ с учётом сроков проекта и ресурсов;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> осуществляет контроль соблюдения монтажными бригадами установленных сроков в соответствии с утверждённым графиком.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_3_b1">berät den Assistenz-Ingenieur zu realistischen Fristen einzelner Phasen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_3_b2">nimmt Anpassungen im Plan auf Basis praktischer Erfahrung und Objektspezifik vor;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_3_b3">trägt Verantwortung für Entwicklung und Aktualisierung des Arbeitsplans unter Berücksichtigung von Projektfristen und Ressourcen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_3_b4">kontrolliert die Einhaltung der festgelegten Termine durch die Montageteams gemäß dem genehmigten Plan.</span></div>
             </div>
           </div>
         </div>
@@ -574,22 +600,22 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">2.4. Технический выезд и консультации при проектировании (P2)</div>
+            <div class="subsection-title" data-i18n="s2_4_title">2.4. Technischer Objektbesuch und Beratung bei der Planung (P2)</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">На этапе технического проектирования инженер-ассистент может потребовать дополнительных данных непосредственно с объекта.</p>
-            <p class="body-text">Montageleiter:</p>
+            <p class="body-text" data-i18n="s2_4_p1">In der technischen Planungsphase kann der Assistenz-Ingenieur zusätzliche Daten direkt vom Objekt benötigen.</p>
+            <p class="body-text" data-i18n="s2_4_p2">Der Montageleiter:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> осуществляет выезд на объект для технических уточнений;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> консультирует инженера-ассистента по сложным техническим вопросам;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> фиксирует результаты выезда в CRM.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_4_b1">fährt zum Objekt für technische Präzisierungen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_4_b2">berät den Assistenz-Ingenieur zu komplexen technischen Fragen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s2_4_b3">dokumentiert die Ergebnisse des Besuchs im CRM.</span></div>
             </div>
-            <div class="checklist-label">CRM Чек-лист (P2)</div>
+            <div class="checklist-label" data-i18n="chk_p2_label">CRM Checkliste (P2)</div>
             <div class="checklist">
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Осуществил выезд для технических уточнений (если требовался)</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Предоставил консультацию инженеру-ассистенту</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Зафиксировал данные в CRM</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p2_1">Objektbesuch für technische Präzisierungen durchgeführt (falls erforderlich)</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p2_2">Beratung des Assistenz-Ingenieurs durchgeführt</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p2_3">Daten im CRM dokumentiert</div></div>
             </div>
           </div>
         </div>
@@ -600,7 +626,7 @@
     <div class="section-card section-anchor" id="s3">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-num">3</div>
-        <div class="section-title-wrap"><div class="section-title">Получение объекта и подготовка к старту работ</div></div>
+        <div class="section-title-wrap"><div class="section-title" data-i18n="s3_title">Objektübernahme und Vorbereitung des Arbeitsbeginns</div></div>
         <div class="section-arrow">▾</div>
       </div>
       <div class="section-body">
@@ -608,16 +634,16 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">3.1. Получение объекта через CRM</div>
+            <div class="subsection-title" data-i18n="s3_1_title">3.1. Objektübernahme über CRM</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">После подписания договора и получения аванса менеджер B2B передаёт объект в производство.</p>
-            <p class="body-text">Montageleiter:</p>
+            <p class="body-text" data-i18n="s3_1_p1">Nach Vertragsunterzeichnung und Anzahlungseingang übergibt der B2B-Manager das Objekt an die Produktion.</p>
+            <p class="body-text" data-i18n="s3_1_p2">Der Montageleiter:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> получает уведомление или задачу в CRM;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> видит изменение статуса объекта на производственный;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> открывает карточку объекта в CRM.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_1_b1">erhält eine Benachrichtigung oder Aufgabe im CRM;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_1_b2">sieht die Statusänderung des Objekts auf Produktionsstatus;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_1_b3">öffnet die Objektkarte im CRM.</span></div>
             </div>
           </div>
         </div>
@@ -625,58 +651,40 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">3.2. Ознакомление с техническим пакетом</div>
+            <div class="subsection-title" data-i18n="s3_2_title">3.2. Einarbeitung in das technische Paket</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter обязан ознакомиться со всей доступной информацией в CRM:</p>
+            <p class="body-text" data-i18n="s3_2_p1">Der Montageleiter ist verpflichtet, alle im CRM verfügbaren Informationen zu prüfen:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> техническим заданием;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> схемами;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> спецификацией материалов;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> планом работ;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> комментариями инженера-ассистента;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> договорённостями, зафиксированными менеджером B2B;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> проводит консультации с инженером-ассистентом.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_2_b1">technische Aufgabenstellung;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_2_b2">Schemata;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_2_b3">Materialspezifikation;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_2_b4">Arbeitsplan;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_2_b5">Anmerkungen des Assistenz-Ingenieurs;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_2_b6">vom B2B-Manager festgehaltene Vereinbarungen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_2_b7">Rücksprache mit dem Assistenz-Ingenieur.</span></div>
             </div>
-            <p class="body-text">Цель — понять логику проекта до начала работ, а не в процессе.</p>
+            <p class="body-text" data-i18n="s3_2_p2">Ziel ist es, die Projektlogik vor Arbeitsbeginn zu verstehen — nicht erst während der Ausführung.</p>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">3.3. Планирование бригады и логистики</div>
+            <div class="subsection-title" data-i18n="s3_3_title">3.3. Planung der Belegschaft und Logistik</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter организует производственные ресурсы для старта работ:</p>
+            <p class="body-text" data-i18n="s3_3_p1">Der Montageleiter organisiert die Produktionsressourcen für den Arbeitsstart:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> формирует состав бригады для выполнения работ;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> назначает ответственного бригадира на объекте;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> планирует виды работ и последовательность их выполнения;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> организует логистику — доставку инструментов и оборудования;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> организует условия работы на объекте (доступ к помещениям, хранение инструментов, бытовые условия для бригады);</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> проводит инструктаж бригады перед началом работ: технические требования, стандарты компании, последовательность действий;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> контролирует доставку материалов и их готовность к старту.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="subsection">
-          <div class="subsection-header" onclick="toggleSub(this)">
-            <div class="subsection-dot"></div>
-            <div class="subsection-title">3.4. Проверка готовности к старту</div>
-            <div class="subsection-arrow">▾</div>
-          </div>
-          <div class="subsection-body">
-            <p class="body-text">Montageleiter проверяет:</p>
-            <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> достаточно ли технической информации для старта;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> нет ли критических несоответствий в документации;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> понятны ли технические решения;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> реалистичны ли объемы работ с точки зрения объекта;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> готовы ли материалы и бригада.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_3_b1">stellt die Teamzusammensetzung für die Arbeitsausführung zusammen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_3_b2">bestimmt den verantwortlichen Vorarbeiter am Objekt;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_3_b3">plant Arbeitsarten und deren Ausführungsreihenfolge;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_3_b4">organisiert die Logistik — Anlieferung von Werkzeug und Ausrüstung;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_3_b5">organisiert die Arbeitsbedingungen am Objekt (Raumzugang, Werkzeugaufbewahrung, Sozialeinrichtungen für das Team);</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_3_b6">führt eine Einweisung des Teams vor Arbeitsbeginn durch: technische Anforderungen, Unternehmensstandards, Handlungsabfolge;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_3_b7">kontrolliert die Materialanlieferung und deren Startbereitschaft.</span></div>
             </div>
           </div>
         </div>
@@ -684,38 +692,56 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">3.5. Обратная связь перед стартом</div>
+            <div class="subsection-title" data-i18n="s3_4_title">3.4. Überprüfung der Startbereitschaft</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Если выявлено: недостаток данных, технические риски, потенциальные ошибки, несоответствие объекта документации — Montageleiter обязательно:</p>
+            <p class="body-text" data-i18n="s3_4_p1">Der Montageleiter prüft:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> фиксирует это в CRM;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> оставляет комментарий или создаёт задачу;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> передаёт вопрос инженеру-ассистенту или менеджеру B2B.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_4_b1">ob ausreichend technische Informationen für den Start vorliegen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_4_b2">ob keine kritischen Diskrepanzen in der Dokumentation bestehen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_4_b3">ob die technischen Lösungen verständlich sind;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_4_b4">ob die Arbeitsmengen aus Objektsicht realistisch sind;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_4_b5">ob Materialien und Team bereit sind.</span></div>
             </div>
-            <div class="important-box">Самостоятельный старт работ без прояснения критических моментов запрещён.</div>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">3.6. Подтверждение готовности к старту + CRM Чек-лист (P3)</div>
+            <div class="subsection-title" data-i18n="s3_5_title">3.5. Rückmeldung vor dem Start</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">После проверки и уточнения всех моментов Montageleiter подтверждает готовность к выезду / началу работ и фиксирует это в CRM. С этого момента объект считается принятым в производство.</p>
-            <div class="checklist-label">CRM Чек-лист (P3)</div>
+            <p class="body-text" data-i18n="s3_5_p1">Wenn festgestellt wird: Datenmangel, technische Risiken, potenzielle Fehler, Abweichung des Objekts von der Dokumentation — muss der Montageleiter zwingend:</p>
+            <div class="bullet-list">
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_5_b1">dies im CRM dokumentieren;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_5_b2">einen Kommentar hinterlassen oder eine Aufgabe erstellen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s3_5_b3">die Frage an den Assistenz-Ingenieur oder B2B-Manager weiterleiten.</span></div>
+            </div>
+            <div class="important-box" data-i18n="s3_5_warn">Eigenständiger Arbeitsstart ohne Klärung kritischer Punkte ist verboten.</div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="subsection-header" onclick="toggleSub(this)">
+            <div class="subsection-dot"></div>
+            <div class="subsection-title" data-i18n="s3_6_title">3.6. Startbereitschaft bestätigen + CRM Checkliste (P3)</div>
+            <div class="subsection-arrow">▾</div>
+          </div>
+          <div class="subsection-body">
+            <p class="body-text" data-i18n="s3_6_p1">Nach Prüfung und Klärung aller Punkte bestätigt der Montageleiter die Bereitschaft zur Anfahrt / zum Arbeitsbeginn und dokumentiert dies im CRM. Ab diesem Moment gilt das Objekt als in Produktion aufgenommen.</p>
+            <div class="checklist-label" data-i18n="chk_p3_label">CRM Checkliste (P3)</div>
             <div class="checklist">
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Принял объект в работу</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Ознакомился с техническим заданием и чертежами</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Провёл консультацию с инженером-ассистентом</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Сформировал состав бригады и назначил бригадира</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Провёл инструктаж бригады перед началом работ</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Проверил готовность материалов к началу работ</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Организовал условия работы на объекте</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Зафиксировал дату старта работ в CRM</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p3_1">Objekt in Arbeit übernommen</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p3_2">Technische Aufgabenstellung und Pläne geprüft</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p3_3">Rücksprache mit dem Assistenz-Ingenieur gehalten</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p3_4">Teamzusammensetzung festgelegt und Vorarbeiter bestimmt</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p3_5">Einweisung des Teams vor Arbeitsbeginn durchgeführt</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p3_6">Materialbereitschaft vor Arbeitsbeginn geprüft</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p3_7">Arbeitsbedingungen am Objekt organisiert</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p3_8">Startdatum der Arbeiten im CRM dokumentiert</div></div>
             </div>
           </div>
         </div>
@@ -726,7 +752,7 @@
     <div class="section-card section-anchor" id="s4">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-num">4</div>
-        <div class="section-title-wrap"><div class="section-title">Выполнение работ на объекте (Производство)</div></div>
+        <div class="section-title-wrap"><div class="section-title" data-i18n="s4_title">Arbeitsausführung am Objekt (Produktion)</div></div>
         <div class="section-arrow">▾</div>
       </div>
       <div class="section-body">
@@ -734,81 +760,81 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">4.1. Выезд на объект и старт работ</div>
+            <div class="subsection-title" data-i18n="s4_1_title">4.1. Objektanfahrt und Arbeitsstart</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter:</p>
+            <p class="body-text" data-i18n="s4_1_p1">Der Montageleiter:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> организует выезд на объект и первый рабочий день бригады;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> проверяет фактическое состояние объекта перед началом работ;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> сверяет реальное состояние объекта с техническим заданием и схемами.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s4_1_b1">organisiert die Objektanfahrt und den ersten Arbeitstag des Teams;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s4_1_b2">prüft den tatsächlichen Objektzustand vor Arbeitsbeginn;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s4_1_b3">gleicht den Ist-Zustand mit der technischen Aufgabenstellung und den Schemata ab.</span></div>
             </div>
-            <p class="body-text">Перед стартом проверяет: доступ к помещениям, готовность зон монтажа, наличие коммуникаций, возможность выполнения работ в запланированной последовательности.</p>
-            <div class="important-box">Если выявлены критические расхождения — работы не начинаются до фиксации ситуации в CRM.</div>
+            <p class="body-text" data-i18n="s4_1_p2">Vor dem Start prüft er: Raumzugang, Bereitschaft der Montagezonen, Vorhandensein von Versorgungsleitungen, Möglichkeit der Arbeitsausführung in geplanter Reihenfolge.</p>
+            <div class="important-box" data-i18n="s4_1_warn">Werden kritische Abweichungen festgestellt — beginnen die Arbeiten erst nach CRM-Dokumentation der Situation.</div>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">4.2. Организация и контроль монтажных работ</div>
+            <div class="subsection-title" data-i18n="s4_2_title">4.2. Organisation und Kontrolle der Montagearbeiten</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter управляет процессом монтажа и несёт ответственность за сроки и качество:</p>
+            <p class="body-text" data-i18n="s4_2_p1">Der Montageleiter steuert den Montageprozess und trägt die Verantwortung für Fristen und Qualität:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> контролирует правильность монтажа систем согласно DIN-Normen;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> следит за соблюдением технических решений согласно DIN-Normen;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> проверяет качество выполнения ключевых узлов;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> обеспечивает соблюдение последовательности работ.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s4_2_b1">kontrolliert die Korrektheit der Systemmontagé gemäß DIN-Normen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s4_2_b2">überwacht die Einhaltung der technischen Lösungen gemäß DIN-Normen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s4_2_b3">prüft die Ausführungsqualität der Schlüsselknotenpunkte;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s4_2_b4">stellt die Einhaltung der Arbeitsreihenfolge sicher.</span></div>
             </div>
-            <p class="body-text">Montageleiter отвечает за технический результат, а не только за факт выполнения работ.</p>
+            <p class="body-text" data-i18n="s4_2_p2">Der Montageleiter ist für das technische Ergebnis verantwortlich, nicht nur für die bloße Ausführung der Arbeiten.</p>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">4.3. Техническая коммуникация с представителем заказчика</div>
+            <div class="subsection-title" data-i18n="s4_3_title">4.3. Technische Kommunikation mit dem Auftraggeber-Vertreter</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">На объекте Montageleiter является единственным техническим представителем компании:</p>
+            <p class="body-text" data-i18n="s4_3_p1">Am Objekt ist der Montageleiter der einzige technische Unternehmensvertreter:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> ведёт техническую коммуникацию с представителем заказчика непосредственно на объекте;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> отвечает на технические вопросы по ходу выполнения работ;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> информирует представителя заказчика о ходе работ и промежуточных результатах.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s4_3_b1">führt die technische Kommunikation mit dem Auftraggeber-Vertreter direkt am Objekt;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s4_3_b2">beantwortet technische Fragen während der Arbeitsausführung;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s4_3_b3">informiert den Auftraggeber-Vertreter über den Arbeitsfortschritt und Zwischenergebnisse.</span></div>
             </div>
-            <div class="important-box">ВАЖНО: Montageleiter не согласовывает изменения стоимости, объёмов или сроков напрямую с клиентом. Все подобные вопросы передаются менеджеру B2B.</div>
+            <div class="important-box" data-i18n="s4_3_warn">WICHTIG: Der Montageleiter stimmt keine Kosten-, Mengen- oder Friständerungen direkt mit dem Kunden ab. Alle derartigen Fragen werden an den B2B-Manager weitergeleitet.</div>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">4.4. Контроль соответствия ТЗ и стандартам согласно DIN-Normen</div>
+            <div class="subsection-title" data-i18n="s4_4_title">4.4. Kontrolle der Übereinstimmung mit technischer Aufgabe und DIN-Normen</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter постоянно сравнивает фактические работы с техническим заданием, схемами и стандартами компании. Любое отклонение не игнорируется, не «решается молча» и обязательно согласовывается с руководством компании с разъяснением причины.</p>
+            <p class="body-text" data-i18n="s4_4_p1">Der Montageleiter vergleicht die tatsächlichen Arbeiten ständig mit der technischen Aufgabenstellung, den Schemata und den Unternehmensstandards. Jede Abweichung wird nicht ignoriert, nicht „still gelöst" und muss zwingend mit der Unternehmensleitung mit Begründung abgestimmt werden.</p>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">4.5. Работа с материалами на объекте + CRM Чек-лист (P4)</div>
+            <div class="subsection-title" data-i18n="s4_5_title">4.5. Materialarbeit am Objekt + CRM Checkliste (P4)</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter контролирует соответствие материалов спецификации, корректность использования, минимизацию перерасхода. В случае нехватки или несоответствия: фиксирует, инициирует уточнение с инженером-ассистентом и обязательно согласовывается с руководством компании с разъяснением причины, не принимает решения, влияющие на качество, без фиксации.</p>
-            <div class="checklist-label">CRM Чек-лист (P4)</div>
+            <p class="body-text" data-i18n="s4_5_p1">Der Montageleiter kontrolliert die Materialübereinstimmung mit der Spezifikation, die korrekte Verwendung und minimiert Mehrverbrauch. Bei Mangel oder Diskrepanz: dokumentiert, initiiert Abstimmung mit dem Assistenz-Ingenieur und stimmt zwingend mit der Unternehmensleitung mit Begründung ab; trifft keine qualitätsbeeinflussenden Entscheidungen ohne Dokumentation.</p>
+            <div class="checklist-label" data-i18n="chk_p4_label">CRM Checkliste (P4)</div>
             <div class="checklist">
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Зафиксировал старт монтажных работ в CRM</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Ведёт текущую фиксацию хода работ (фото, комментарии)</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Если возникли отклонения — зафиксировал и передал руководству</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Зафиксировал завершение монтажных работ в CRM</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p4_1">Start der Montagearbeiten im CRM dokumentiert</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p4_2">Laufende Dokumentation des Arbeitsfortschritts (Fotos, Kommentare)</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p4_3">Bei Abweichungen — dokumentiert und an Leitung weitergeleitet</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p4_4">Abschluss der Montagearbeiten im CRM dokumentiert</div></div>
             </div>
           </div>
         </div>
@@ -819,25 +845,25 @@
     <div class="section-card section-anchor" id="s5">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-num">5</div>
-        <div class="section-title-wrap"><div class="section-title">Дополнительные работы</div></div>
+        <div class="section-title-wrap"><div class="section-title" data-i18n="s5_title">Zusatzarbeiten</div></div>
         <div class="section-arrow">▾</div>
       </div>
       <div class="section-body">
-        <div class="section-intro">Дополнительные работы — это работы, которые возникают в процессе выполнения проекта и не были включены в изначальный договор. Montageleiter является ключевым инициатором фиксации таких работ.</div>
+        <div class="section-intro" data-i18n="s5_intro">Zusatzarbeiten sind Arbeiten, die während der Projektausführung entstehen und nicht im ursprünglichen Vertrag enthalten waren. Der Montageleiter ist der Hauptinitiator der Dokumentation solcher Arbeiten.</div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">5.1. Выявление дополнительных работ</div>
+            <div class="subsection-title" data-i18n="s5_1_title">5.1. Erkennung von Zusatzarbeiten</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">В ходе монтажа Montageleiter может выявить работы, не предусмотренные ТЗ, но необходимые для качественного результата.</p>
-            <p class="body-text">Montageleiter:</p>
+            <p class="body-text" data-i18n="s5_1_p1">Während der Montage kann der Montageleiter Arbeiten erkennen, die nicht in der technischen Aufgabe vorgesehen, aber für ein qualitatives Ergebnis notwendig sind.</p>
+            <p class="body-text" data-i18n="s5_1_p2">Der Montageleiter:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> выявляет необходимость дополнительных работ;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> не приступает к этим работам до их согласования;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> незамедлительно фиксирует факт в CRM.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s5_1_b1">erkennt die Notwendigkeit von Zusatzarbeiten;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s5_1_b2">beginnt diese Arbeiten nicht vor deren Genehmigung;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s5_1_b3">dokumentiert den Sachverhalt unverzüglich im CRM.</span></div>
             </div>
           </div>
         </div>
@@ -845,16 +871,16 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">5.2. Фиксация и передача информации</div>
+            <div class="subsection-title" data-i18n="s5_2_title">5.2. Dokumentation und Informationsweitergabe</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter:</p>
+            <p class="body-text" data-i18n="s5_2_p1">Der Montageleiter:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> описывает суть и объём дополнительных работ;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> фиксирует фактические объёмы — фото, видео, схемы;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> передаёт информацию инженеру-ассистенту для технического анализа и перерасчёта;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> ожидает подтверждения от B2B менеджера перед выполнением.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s5_2_b1">beschreibt Art und Umfang der Zusatzarbeiten;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s5_2_b2">dokumentiert die tatsächlichen Mengen — Fotos, Videos, Schemata;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s5_2_b3">leitet die Informationen an den Assistenz-Ingenieur zur technischen Analyse und Neuberechnung weiter;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s5_2_b4">wartet auf die Bestätigung des B2B-Managers vor der Ausführung.</span></div>
             </div>
           </div>
         </div>
@@ -862,24 +888,24 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">5.3. Согласование и выполнение + CRM Чек-лист (P5)</div>
+            <div class="subsection-title" data-i18n="s5_3_title">5.3. Genehmigung und Ausführung + CRM Checkliste (P5)</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">После анализа инженером-ассистентом и согласования с клиентом менеджером B2B Montageleiter:</p>
+            <p class="body-text" data-i18n="s5_3_p1">Nach der Analyse durch den Assistenz-Ingenieur und der Abstimmung mit dem Kunden durch den B2B-Manager:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> получает подтверждение на выполнение дополнительных работ через CRM;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> выполняет дополнительные работы в рамках согласованного объёма;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> фиксирует факт выполнения в CRM.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s5_3_b1">erhält Bestätigung zur Ausführung der Zusatzarbeiten über CRM;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s5_3_b2">führt die Zusatzarbeiten im Rahmen des genehmigten Umfangs aus;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s5_3_b3">dokumentiert die Ausführung im CRM.</span></div>
             </div>
-            <div class="important-box">Выполнение дополнительных работ без согласования через CRM запрещено.</div>
-            <div class="checklist-label">CRM Чек-лист (P5)</div>
+            <div class="important-box" data-i18n="s5_3_warn">Ausführung von Zusatzarbeiten ohne CRM-Genehmigung ist verboten.</div>
+            <div class="checklist-label" data-i18n="chk_p5_label">CRM Checkliste (P5)</div>
             <div class="checklist">
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Зафиксировал необходимость дополнительных работ в CRM</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Добавил фото / видео / схемы по дополнительным работам</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Передал информацию инженеру-ассистенту для анализа</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Получил подтверждение от B2B менеджера</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Зафиксировал выполнение дополнительных работ в CRM</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p5_1">Notwendigkeit der Zusatzarbeiten im CRM dokumentiert</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p5_2">Fotos / Videos / Schemata zu den Zusatzarbeiten hochgeladen</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p5_3">Informationen an den Assistenz-Ingenieur zur Analyse weitergeleitet</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p5_4">Bestätigung des B2B-Managers erhalten</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p5_5">Ausführung der Zusatzarbeiten im CRM dokumentiert</div></div>
             </div>
           </div>
         </div>
@@ -890,7 +916,7 @@
     <div class="section-card section-anchor" id="s6">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-num">6</div>
-        <div class="section-title-wrap"><div class="section-title">Технические решения, отклонения и изменения в процессе работ</div></div>
+        <div class="section-title-wrap"><div class="section-title" data-i18n="s6_title">Technische Entscheidungen, Abweichungen und Änderungen im Arbeitsprozess</div></div>
         <div class="section-arrow">▾</div>
       </div>
       <div class="section-body">
@@ -898,27 +924,27 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">6.1. Выявление технических отклонений</div>
+            <div class="subsection-title" data-i18n="s6_1_title">6.1. Erkennung technischer Abweichungen</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter может выявить: несоответствие объекта документации, невозможность выполнить запланированное решение, технические ошибки предыдущих этапов, скрытые дефекты объекта. Такие ситуации являются нормальными, но должны быть управляемыми.</p>
+            <p class="body-text" data-i18n="s6_1_p1">Der Montageleiter kann erkennen: Abweichung des Objekts von der Dokumentation, Unmöglichkeit der geplanten Lösung, technische Fehler vorheriger Phasen, verdeckte Objektmängel. Solche Situationen sind normal, müssen aber beherrschbar sein.</p>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">6.2. Фиксация отклонений в CRM</div>
+            <div class="subsection-title" data-i18n="s6_2_title">6.2. Dokumentation von Abweichungen im CRM</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">При выявлении отклонения Montageleiter:</p>
+            <p class="body-text" data-i18n="s6_2_p1">Bei Feststellung einer Abweichung:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> описывает суть проблемы;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> добавляет фото / видео;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> указывает, на какой пункт ТЗ или схем это влияет;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> фиксирует всё в CRM.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s6_2_b1">beschreibt das Problem;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s6_2_b2">fügt Fotos / Videos hinzu;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s6_2_b3">gibt an, welchen Punkt der technischen Aufgabe oder der Schemata dies betrifft;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s6_2_b4">dokumentiert alles im CRM.</span></div>
             </div>
           </div>
         </div>
@@ -926,19 +952,19 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">6.3. Принятие технических решений</div>
+            <div class="subsection-title" data-i18n="s6_3_title">6.3. Treffen technischer Entscheidungen</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter анализирует варианты решения, оценивает влияние на качество, сроки и объём работ.</p>
+            <p class="body-text" data-i18n="s6_3_p1">Der Montageleiter analysiert Lösungsvarianten, bewertet den Einfluss auf Qualität, Fristen und Arbeitsumfang.</p>
             <div class="decision-grid">
               <div class="decision-card yes">
-                <div class="decision-label">Может решить самостоятельно</div>
-                <div class="decision-text">Решение не влияет на стоимость и логику проекта</div>
+                <div class="decision-label" data-i18n="decision_yes_label">Kann selbstständig entscheiden</div>
+                <div class="decision-text" data-i18n="decision_yes_text">Entscheidung beeinflusst nicht die Kosten und Projektlogik</div>
               </div>
               <div class="decision-card no">
-                <div class="decision-label">Передаётся руководству</div>
-                <div class="decision-text">Влияет на объём работ, материалы или сроки → инженеру-ассистенту и менеджеру B2B через CRM</div>
+                <div class="decision-label" data-i18n="decision_no_label">Wird an die Leitung weitergeleitet</div>
+                <div class="decision-text" data-i18n="decision_no_text">Beeinflusst Arbeitsumfang, Materialien oder Fristen → an Assistenz-Ingenieur und B2B-Manager über CRM</div>
               </div>
             </div>
           </div>
@@ -947,42 +973,42 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">6.4. Запрет несогласованных изменений</div>
+            <div class="subsection-title" data-i18n="s6_4_title">6.4. Verbot nicht abgestimmter Änderungen</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter запрещено:</p>
+            <p class="body-text" data-i18n="s6_4_p1">Dem Montageleiter ist verboten:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> изменять техническое решение без фиксации;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> принимать решения «на словах»;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> согласовывать с клиентом любые изменения напрямую;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> скрывать технические проблемы.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s6_4_b1">technische Lösungen ohne Dokumentation zu ändern;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s6_4_b2">Entscheidungen „mündlich" zu treffen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s6_4_b3">Änderungen direkt mit dem Kunden abzustimmen;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s6_4_b4">technische Probleme zu verbergen.</span></div>
             </div>
-            <div class="important-box">Любое незафиксированное изменение = риск для компании.</div>
+            <div class="important-box" data-i18n="s6_4_warn">Jede nicht dokumentierte Änderung = Risiko für das Unternehmen.</div>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">6.5. Коммуникация с другими ролями</div>
+            <div class="subsection-title" data-i18n="s6_5_title">6.5. Kommunikation mit anderen Rollen</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Все коммуникации Montageleiters с инженером-ассистентом, менеджером B2B и руководством ведутся через CRM или с последующей фиксацией в CRM. Устные договорённости без фиксации в системе не имеют силы.</p>
+            <p class="body-text" data-i18n="s6_5_p1">Alle Kommunikationen des Montageleiters mit dem Assistenz-Ingenieur, dem B2B-Manager und der Leitung erfolgen über CRM oder mit anschließender CRM-Dokumentation. Mündliche Vereinbarungen ohne Systemdokumentation haben keine Gültigkeit.</p>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">6.6. Актуализация информации по объекту</div>
+            <div class="subsection-title" data-i18n="s6_6_title">6.6. Aktualisierung der Objektinformationen</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">После каждого существенного решения или изменения Montageleiter обновляет информацию в CRM, добавляет пояснения и обеспечивает актуальность данных для всех участников процесса.</p>
+            <p class="body-text" data-i18n="s6_6_p1">Nach jeder wesentlichen Entscheidung oder Änderung aktualisiert der Montageleiter die Informationen im CRM, fügt Erläuterungen hinzu und stellt die Aktualität der Daten für alle Prozessbeteiligten sicher.</p>
             <div class="principle-box">
-              <div class="principle-quote" style="font-size:16px;">CRM — единственный источник правды по объекту.</div>
+              <div class="principle-quote" style="font-size:16px;" data-i18n="s6_6_principle">CRM ist die einzige Wahrheitsquelle für das Objekt.</div>
             </div>
           </div>
         </div>
@@ -993,7 +1019,7 @@
     <div class="section-card section-anchor" id="s7">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-num">7</div>
-        <div class="section-title-wrap"><div class="section-title">Завершение работ и закрытие объекта в CRM</div></div>
+        <div class="section-title-wrap"><div class="section-title" data-i18n="s7_title">Arbeitsabschluss und Objektschließung im CRM</div></div>
         <div class="section-arrow">▾</div>
       </div>
       <div class="section-body">
@@ -1001,27 +1027,27 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">7.1. Получение подтверждения о завершении монтажных работ</div>
+            <div class="subsection-title" data-i18n="s7_1_title">7.1. Bestätigung über den Abschluss der Montagearbeiten erhalten</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter получает от бригадира информацию о: фактическом завершении монтажных работ, выполнении всех этапов согласно ТЗ, устранении замечаний и готовности объекта к сдаче.</p>
+            <p class="body-text" data-i18n="s7_1_p1">Der Montageleiter erhält vom Vorarbeiter Informationen über: den tatsächlichen Abschluss der Montagearbeiten, die Erfüllung aller Phasen gemäß der technischen Aufgabenstellung, die Behebung der Mängel und die Übergabebereitschaft des Objekts.</p>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">7.2. Проверка качества и пусконаладка</div>
+            <div class="subsection-title" data-i18n="s7_2_title">7.2. Qualitätsprüfung und Inbetriebnahme</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Перед сдачей объекта Montageleiter:</p>
+            <p class="body-text" data-i18n="s7_2_p1">Vor der Objektübergabe:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> проверяет качество выполненных работ на объекте;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> выполняет пусконаладку систем — запуск, тестирование, проверка корректной работы;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> устраняет выявленные замечания;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> подтверждает техническую готовность объекта к сдаче клиенту.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_2_b1">prüft die Qualität der ausgeführten Arbeiten am Objekt;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_2_b2">führt die Inbetriebnahme der Systeme durch — Start, Test, Funktionsprüfung;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_2_b3">behebt festgestellte Mängel;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_2_b4">bestätigt die technische Übergabebereitschaft des Objekts an den Kunden.</span></div>
             </div>
           </div>
         </div>
@@ -1029,16 +1055,16 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">7.3. Передача объекта техническому надзору заказчика</div>
+            <div class="subsection-title" data-i18n="s7_3_title">7.3. Übergabe des Objekts an die technische Aufsicht des Auftraggebers</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">При наличии технического надзора на стороне заказчика Montageleiter:</p>
+            <p class="body-text" data-i18n="s7_3_p1">Falls technische Aufsicht auf Auftraggeberseite vorhanden ist:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> передаёт выполненные работы техническому надзору заказчика;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> отвечает на технические вопросы по выполненным работам;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> фиксируется подписями в Abnahmeprotokoll представителем заказчика;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> фиксирует факт передачи в CRM.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_3_b1">übergibt die ausgeführten Arbeiten an die technische Aufsicht des Auftraggebers;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_3_b2">beantwortet technische Fragen zu den ausgeführten Arbeiten;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_3_b3">wird mit Unterschriften im Abnahmeprotokoll vom Auftraggeber-Vertreter dokumentiert;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_3_b4">dokumentiert die Übergabe im CRM.</span></div>
             </div>
           </div>
         </div>
@@ -1046,13 +1072,13 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">7.4. Сбор фактических данных по объекту</div>
+            <div class="subsection-title" data-i18n="s7_4_title">7.4. Erfassung der Ist-Daten zum Objekt</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter обеспечивает сбор и фиксацию:</p>
+            <p class="body-text" data-i18n="s7_4_p1">Der Montageleiter stellt die Erfassung und Dokumentation sicher:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> технических изменений, которые произошли в процессе реализации.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_4_b1">technischer Änderungen, die während der Umsetzung aufgetreten sind.</span></div>
             </div>
           </div>
         </div>
@@ -1060,50 +1086,50 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">7.5. Внесение финальной информации в CRM</div>
+            <div class="subsection-title" data-i18n="s7_5_title">7.5. Eingabe der finalen Informationen ins CRM</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter вносит в CRM:</p>
+            <p class="body-text" data-i18n="s7_5_p1">Der Montageleiter trägt ins CRM ein:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> финальный статус выполнения работ;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> информацию обо всех отклонениях от первоначального ТЗ;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> подтверждение завершения производственной части;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> утверждает фактические исполнительные схемы от инженера-ассистента.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_5_b1">den finalen Ausführungsstatus der Arbeiten;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_5_b2">Informationen zu allen Abweichungen von der ursprünglichen technischen Aufgabenstellung;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_5_b3">die Bestätigung des Abschlusses der Produktionsphase;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_5_b4">genehmigt die tatsächlichen Ausführungsschemata vom Assistenz-Ingenieur.</span></div>
             </div>
-            <p class="body-text">При необходимости добавляет финальные фото объекта и прикрепляет исполнительные схемы.</p>
+            <p class="body-text" data-i18n="s7_5_p2">Bei Bedarf fügt er finale Objektfotos hinzu und heftet Ausführungsschemata an.</p>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">7.6. Участие в сдаче объекта клиенту (P7)</div>
+            <div class="subsection-title" data-i18n="s7_6_title">7.6. Beteiligung an der Objektübergabe an den Kunden (P7)</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">При организации сдачи объекта клиенту менеджером B2B Montageleiter:</p>
+            <p class="body-text" data-i18n="s7_6_p1">Bei der vom B2B-Manager organisierten Objektübergabe an den Kunden:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> демонстрирует системы клиенту при необходимости;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> предоставляет технические пояснения по выполненным работам;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> отвечает на технические вопросы клиента в рамках своей компетенции.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_6_b1">demonstriert die Systeme dem Kunden bei Bedarf;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_6_b2">gibt technische Erläuterungen zu den ausgeführten Arbeiten;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_6_b3">beantwortet technische Fragen des Kunden im Rahmen seiner Kompetenz.</span></div>
             </div>
-            <div class="important-box">ВАЖНО: Коммуникация по оплатам, документам и гарантийным обязательствам — зона ответственности менеджера B2B, не Montageleiter.</div>
+            <div class="important-box" data-i18n="s7_6_warn">WICHTIG: Kommunikation zu Zahlungen, Dokumenten und Garantieverpflichtungen ist Verantwortungsbereich des B2B-Managers, nicht des Montageleiters.</div>
           </div>
         </div>
 
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">7.7. Передача объекта далее по процессу</div>
+            <div class="subsection-title" data-i18n="s7_7_title">7.7. Weitergabe des Objekts im Prozess</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">После закрытия производственной части Montageleiter:</p>
+            <p class="body-text" data-i18n="s7_7_p1">Nach Abschluss der Produktionsphase:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> уведомляет менеджера B2B через CRM, что объект технически завершён;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> подтверждает, что объект готов к финальной коммуникации с клиентом;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> закрывает свои производственные задачи в CRM.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_7_b1">benachrichtigt den B2B-Manager über CRM, dass das Objekt technisch abgeschlossen ist;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_7_b2">bestätigt, dass das Objekt zur finalen Kundenkommunikation bereit ist;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_7_b3">schließt seine Produktionsaufgaben im CRM ab.</span></div>
             </div>
           </div>
         </div>
@@ -1111,26 +1137,26 @@
         <div class="subsection">
           <div class="subsection-header" onclick="toggleSub(this)">
             <div class="subsection-dot"></div>
-            <div class="subsection-title">7.8. Формальное закрытие объекта + CRM Чек-лист (P6)</div>
+            <div class="subsection-title" data-i18n="s7_8_title">7.8. Formeller Objektabschluss + CRM Checkliste (P6)</div>
             <div class="subsection-arrow">▾</div>
           </div>
           <div class="subsection-body">
-            <p class="body-text">Montageleiter:</p>
+            <p class="body-text" data-i18n="s7_8_p1">Der Montageleiter:</p>
             <div class="bullet-list">
-              <div class="bullet-item"><span class="bullet-icon">•</span> изменяет статус объекта в CRM на «Производственно завершено / Технически закрыто»;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> оставляет финальный технический комментарий;</div>
-              <div class="bullet-item"><span class="bullet-icon">•</span> закрывает все свои задачи по объекту.</div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_8_b1">ändert den Objektstatus im CRM auf „Produktionell abgeschlossen / Technisch geschlossen";</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_8_b2">hinterlässt den finalen technischen Kommentar;</span></div>
+              <div class="bullet-item"><span class="bullet-icon">•</span> <span data-i18n="s7_8_b3">schließt alle seine Objektaufgaben ab.</span></div>
             </div>
-            <p class="body-text">На этом участие Montageleiters в активной фазе проекта завершено.</p>
-            <div class="checklist-label">CRM Чек-лист (P6)</div>
+            <p class="body-text" data-i18n="s7_8_p2">Damit ist die Beteiligung des Montageleiters in der aktiven Projektphase abgeschlossen.</p>
+            <div class="checklist-label" data-i18n="chk_p6_label">CRM Checkliste (P6)</div>
             <div class="checklist">
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Проверил качество выполненных работ на объекте</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Выполнил пусконаладку систем</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Подписал Abnahmeprotokoll с представителем заказчика</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Утвердил исполнительные схемы от инженера-ассистента</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Внёс финальные данные и фото в CRM</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Уведомил менеджера B2B о завершении производственной части</div></div>
-              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text">Изменил статус объекта на «Технически закрыто»</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p6_1">Qualität der ausgeführten Arbeiten am Objekt geprüft</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p6_2">Inbetriebnahme der Systeme durchgeführt</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p6_3">Abnahmeprotokoll mit dem Auftraggeber-Vertreter unterzeichnet</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p6_4">Ausführungsschemata des Assistenz-Ingenieurs genehmigt</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p6_5">Finale Daten und Fotos ins CRM eingetragen</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p6_6">B2B-Manager über Abschluss der Produktionsphase informiert</div></div>
+              <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text" data-i18n="chk_p6_7">Objektstatus auf „Technisch geschlossen" geändert</div></div>
             </div>
           </div>
         </div>
@@ -1141,40 +1167,40 @@
     <div class="section-card section-anchor" id="s8">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-num">8</div>
-        <div class="section-title-wrap"><div class="section-title">KPI Montageleiters</div></div>
+        <div class="section-title-wrap"><div class="section-title" data-i18n="s8_title">KPI des Montageleiters</div></div>
         <div class="section-arrow">▾</div>
       </div>
       <div class="section-body">
-        <div class="section-intro">Цель раздела: Зафиксировать измеримые показатели эффективности работы Montageleiters для оценки результативности и контроля качества.</div>
+        <div class="section-intro" data-i18n="s8_intro">Ziel des Abschnitts: Messbare Leistungsindikatoren für die Arbeit des Montageleiters zur Ergebnisbewertung und Qualitätskontrolle festhalten.</div>
         <div class="kpi-grid">
           <div class="kpi-card">
             <div class="kpi-value">100%</div>
-            <div class="kpi-label">Совпадение договорной даты начала работ с фактической</div>
-            <div class="kpi-category">8.1 · Подготовка к старту</div>
+            <div class="kpi-label" data-i18n="kpi1_label">Übereinstimmung des vertraglichen Arbeitsbeginns mit dem tatsächlichen</div>
+            <div class="kpi-category" data-i18n="kpi1_cat">8.1 · Startvorbereitung</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-value orange">≥90%</div>
-            <div class="kpi-label">Выполненных работ в соответствии с графиком монтажа</div>
-            <div class="kpi-category">8.2 · Выполнение работ</div>
+            <div class="kpi-label" data-i18n="kpi2_label">Ausgeführte Arbeiten gemäß Montagezeitplan</div>
+            <div class="kpi-category" data-i18n="kpi2_cat">8.2 · Arbeitsausführung</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-value">100%</div>
-            <div class="kpi-label">Объектов с полной фиксацией хода работ в CRM</div>
-            <div class="kpi-category">8.3 · Работа с CRM</div>
+            <div class="kpi-label" data-i18n="kpi3_label">Objekte mit vollständiger CRM-Dokumentation des Arbeitsfortschritts</div>
+            <div class="kpi-category" data-i18n="kpi3_cat">8.3 · CRM-Arbeit</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-value">100%</div>
-            <div class="kpi-label">Отклонений, зафиксированных в CRM от общего числа выявленных</div>
-            <div class="kpi-category">8.3 · Фиксация отклонений</div>
+            <div class="kpi-label" data-i18n="kpi4_label">Im CRM dokumentierte Abweichungen von der Gesamtzahl der festgestellten</div>
+            <div class="kpi-category" data-i18n="kpi4_cat">8.3 · Abweichungsdokumentation</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-value green">≥95%</div>
-            <div class="kpi-label">Объектов, технически закрытых в CRM в течение 1 рабочего дня после завершения работ</div>
-            <div class="kpi-category">8.4 · Завершение объектов</div>
+            <div class="kpi-label" data-i18n="kpi5_label">Objekte, die im CRM innerhalb von 1 Werktag nach Arbeitsabschluss technisch geschlossen wurden</div>
+            <div class="kpi-category" data-i18n="kpi5_cat">8.4 · Objektabschluss</div>
           </div>
         </div>
-        <div style="padding:0 24px 20px;font-size:13px;color:var(--text2);line-height:1.6;">
-          Примечание: KPI отслеживаются руководителем на основе данных CRM. Montageleiter несёт ответственность за полноту и своевременность внесения данных в систему.
+        <div style="padding:0 24px 20px;font-size:13px;color:var(--text2);line-height:1.6;" data-i18n="kpi_note">
+          Hinweis: KPIs werden vom Leiter auf Basis der CRM-Daten verfolgt. Der Montageleiter trägt die Verantwortung für Vollständigkeit und Aktualität der Dateneingabe ins System.
         </div>
       </div>
     </div>
@@ -1183,6 +1209,436 @@
 </main>
 
 <script>
+  // ── i18n ────────────────────────────────────────────────────────────────────
+  const translations = {
+    de: {
+      // nav
+      nav_intro: "Einleitung", nav_s1: "Prozessposition", nav_s2: "Vor Produktion",
+      nav_s3: "Übernahme Objekt", nav_s4: "Ausführung", nav_s5: "Zusatzarbeiten",
+      nav_s6: "Abweichungen", nav_s7: "Abschluss", nav_s8: "KPI",
+      // hero
+      hero_badge: "Stellenbeschreibung",
+      hero_span: "– organisiert Montageabläufe und Personal",
+      hero_sub: "Stellenbeschreibung und Produktionsprozessmodell · SKYBUD",
+      hero_version: "Version V1",
+      // timeline
+      tl_title: "Beteiligung des Montageleiters am CRM-Funnel",
+      tl_l3: "Briefing\n(Besuch)", tl_c5: "Kalkulation\n(Beratung)",
+      tl_c9: "Zeitplan\n(Beratung)", tl_p2: "Planung\n(Besuch)",
+      tl_p3: "Vorbereitung\nStart", tl_p4: "Montage",
+      tl_p5: "Zusatz-\narbeiten", tl_p6: "Arbeits-\nabschluss", tl_p7: "Übergabe\nKunde",
+      tl_legend_main: "Hauptrolle", tl_legend_opt: "Bei Bedarf",
+      // intro
+      s0_title: "Einleitung",
+      intro_p1: "Der Montageleiter ist eine technische Produktionsstelle im Unternehmen, die für die tatsächliche Umsetzung von Projekten auf Baustellen, die Einhaltung der technischen Aufgabenstellung, die Qualitätskontrolle der Arbeitsausführung und den technischen Objektabschluss verantwortlich ist.",
+      intro_p2: "Die Rolle des Montageleiters ist entscheidend in der Produktionskette des Unternehmens. Der Montageleiter ist am Projekt von der Phase der Datenerfassung (bei Bedarf) bis zum technischen Abschluss des Objekts im CRM beteiligt.",
+      intro_p3: "Der Montageleiter:",
+      intro_b1: "arbeitet direkt auf den Objekten oder in enger Zusammenarbeit mit ihnen;",
+      intro_b2: "trifft technische Entscheidungen während der Arbeitsausführung;",
+      intro_b3: "dokumentiert den tatsächlichen Zustand, Abweichungen und Arbeitsergebnisse;",
+      intro_b4: "gewährleistet die Übereinstimmung der Ausführung mit der technischen Aufgabenstellung und den Unternehmensstandards.",
+      intro_p4: "Der Montageleiter ist nicht für Verkauf, kommerzielle Verhandlungen oder die Erstellung von Angeboten zuständig. Alle Fragen zu Kosten, Verträgen und Zahlungen werden vom B2B-Manager koordiniert. Alle technischen Berechnungen, Schemata und Spezifikationen werden vom Assistenz-Ingenieur erstellt.",
+      intro_p5: "Das CRM-System ist ein obligatorisches Arbeitswerkzeug des Montageleiters. Über das CRM erhält der Montageleiter Objektinformationen, gibt Rückmeldungen, dokumentiert den Arbeitsfortschritt und technische Entscheidungen und schließt das Objekt nach Fertigstellung ab.",
+      // s1
+      s1_title: "Position des Montageleiters im Gesamtgeschäftsprozess",
+      s1_1_title: "1.1. Rolle des Montageleiters in der Projektumsetzungskette",
+      s1_1_p1: "Das Unternehmen arbeitet nach einem klar getrennten Verantwortungsmodell:",
+      role_b2b_name: "B2B-Manager", role_b2b_1: "Kundengewinnung;", role_b2b_2: "Kommunikation;", role_b2b_3: "Angebot;", role_b2b_4: "Vertrag und Zahlungen.",
+      role_eng_name: "Assistenz-Ingenieur", role_eng_1: "Technische Analyse;", role_eng_2: "Berechnungen;", role_eng_3: "Schemata;", role_eng_4: "Spezifikationen;", role_eng_5: "Erstellung des technischen Pakets.",
+      role_ml_name: "Montageleiter ← Sie", role_ml_1: "Projektumsetzung auf dem Objekt;", role_ml_2: "Tatsächliche Arbeitsausführung;", role_ml_3: "Technische Kontrolle;", role_ml_4: "Dokumentation des Ist-Zustands;", role_ml_5: "Technischer Objektabschluss.",
+      s1_1_p2: "Der Montageleiter ist das letzte technische Glied, das Dokumentation und Pläne in ein ausgeführtes Ergebnis umwandelt.",
+      s1_2_title: "1.2. Hauptverantwortungsbereich des Montageleiters",
+      s1_2_p1: "Der Montageleiter trägt die volle Verantwortung für die Organisation, Koordination und das technische Ergebnis der Montage- und Servicearbeiten am Objekt.",
+      s1_2_p2: "Im Rahmen seiner Rolle gewährleistet er:",
+      s1_2_b1: "Übereinstimmung der ausgeführten Arbeiten mit der technischen Aufgabenstellung und der Projektdokumentation;",
+      s1_2_b2: "Korrektheit und Technologietreue der Montage aller Systeme gemäß den geltenden Standards;",
+      s1_2_b3: "systematische Qualitätskontrolle der Arbeiten in allen Ausführungsphasen;",
+      s1_2_b4: "rechtzeitige Erkennung, Dokumentation und Eskalation technischer Abweichungen;",
+      s1_2_b5: "proaktive Information über Risiken, Probleme und mögliche Verzögerungen;",
+      s1_2_b6: "genaue Erfassung der tatsächlich ausgeführten Arbeitsmengen und verwendeten Materialien;",
+      s1_2_b7: "korrekten technischen Objektabschluss und Datenpflege im CRM-System.",
+      s1_2_p3: "Der Montageleiter steuert den Prozess, führt die Arbeiten jedoch nicht selbst aus. Seine Kernaufgabe ist die effiziente Projektumsetzung und das Erreichen des Endergebnisses.",
+      s1_2_p4: "Im operativen Betrieb:",
+      s1_2_c1: "plant, organisiert und kontrolliert die Ausführung der Montage- und Servicearbeiten;",
+      s1_2_c2: "koordiniert die Arbeit der Montageteams und sorgt für deren reibungslose Zusammenarbeit;",
+      s1_2_c3: "kontrolliert Fristen, Qualität und das Endergebnis der Aufgabenerfüllung;",
+      s1_2_c4: "fungiert als technischer Hauptansprechpartner für den Kunden;",
+      s1_2_c5: "strukturiert die Arbeit und stellt die Einhaltung von Prozessen sicher;",
+      s1_2_c6: "trägt die Verantwortung für die vollständige technische Projektumsetzung;",
+      s1_2_c7: "handelt als Koordinator und technischer Leiter, nicht als Ausführender;",
+      s1_2_c8: "ist auf langfristige Zusammenarbeit, Prozesstabilität und Qualität der Projektumsetzung ausgerichtet.",
+      s1_2_principle: "Verantwortung für Prozess und Endergebnis — einschließlich Personen, Fristen, Qualität und technische Umsetzung.",
+      s1_3_title: "1.3. Verantwortungsgrenzen des Montageleiters",
+      s1_3_p1: "Der Montageleiter ist nicht verantwortlich für:",
+      s1_3_b1: "Verkauf von Dienstleistungen;", s1_3_b2: "Erstellung von Angeboten;", s1_3_b3: "Preisverhandlungen;", s1_3_b4: "Vertragsunterzeichnung;", s1_3_b5: "Zahlungseingang vom Kunden.",
+      s1_3_p2: "Alle Fragen außerhalb der technischen Umsetzung leitet der Montageleiter weiter: an den Assistenz-Ingenieur — bei technischen Fragen; an den B2B-Manager — bei kommerziellen oder kundenbezogenen Fragen.",
+      s1_4_title: "1.4. Arbeitsprinzip des Montageleiters",
+      s1_4_quote: "«Fakten sind wichtiger als Vermutungen»",
+      s1_4_p1: "Alle Handlungen, Entscheidungen und Änderungen werden dokumentiert, begründet und ins CRM eingetragen.",
+      s1_4_p2: "Arbeit, die nicht im CRM dokumentiert ist, gilt als nicht ausgeführt.",
+      // s2
+      s2_title: "Beteiligung des Montageleiters in der Vorproduktionsphase",
+      s2_intro: "Der Montageleiter wird vor der Produktionsphase in das Projekt einbezogen, wenn für Entscheidungen technisches Fachwissen direkt vom Objekt oder aus praktischer Erfahrung erforderlich ist.",
+      s2_1_title: "2.1. Objektbesuch in der Briefing-Phase (L3)",
+      s2_1_p1: "Wenn der B2B-Manager nicht genügend Ausgangsdaten aus der Ferne sammeln kann, fährt der Montageleiter zum Objekt.",
+      s2_1_p2: "Der Montageleiter:",
+      s2_1_b1: "fährt zum Objekt für die erste technische Besichtigung;", s2_1_b2: "dokumentiert die tatsächlichen Maße und Parameter des Objekts;", s2_1_b3: "erstellt Fotos und Videos für die technische Dokumentation;", s2_1_b4: "übergibt die gesammelten Daten über CRM an den Assistenz-Ingenieur.",
+      chk_l3_label: "CRM Checkliste (L3)", chk_l3_1: "Objektbesuch durchgeführt", chk_l3_2: "Maße und Parameter des Objekts dokumentiert", chk_l3_3: "Fotos und Videos in die CRM-Karte hochgeladen", chk_l3_4: "Daten an den Assistenz-Ingenieur übergeben",
+      s2_2_title: "2.2. Technische Beratung bei der Kalkulation (C5)",
+      s2_2_p1: "Bei der Kostenkalkulation kann der Assistenz-Ingenieur beim Montageleiter praktisches Fachwissen anfragen.",
+      s2_2_p2: "Der Montageleiter:",
+      s2_2_b1: "berät den Assistenz-Ingenieur zu komplexen Knotenpunkten oder Sonderlösungen;", s2_2_b2: "präzisiert realistische Arbeitsaufwände (Mannstunden) auf Basis praktischer Erfahrung;", s2_2_b3: "dokumentiert seine Beratungen bei Bedarf im CRM.",
+      s2_3_title: "2.3. Beratung bei der Terminplanung (C9)",
+      s2_3_p1: "Nach der Freigabe des Angebots erstellt der Assistenz-Ingenieur den Arbeitsplan. Der Montageleiter wird bei Bedarf einbezogen.",
+      s2_3_p2: "Der Montageleiter:",
+      s2_3_b1: "berät den Assistenz-Ingenieur zu realistischen Fristen einzelner Phasen;", s2_3_b2: "nimmt Anpassungen im Plan auf Basis praktischer Erfahrung und Objektspezifik vor;", s2_3_b3: "trägt Verantwortung für Entwicklung und Aktualisierung des Arbeitsplans unter Berücksichtigung von Projektfristen und Ressourcen;", s2_3_b4: "kontrolliert die Einhaltung der festgelegten Termine durch die Montageteams gemäß dem genehmigten Plan.",
+      s2_4_title: "2.4. Technischer Objektbesuch und Beratung bei der Planung (P2)",
+      s2_4_p1: "In der technischen Planungsphase kann der Assistenz-Ingenieur zusätzliche Daten direkt vom Objekt benötigen.",
+      s2_4_p2: "Der Montageleiter:",
+      s2_4_b1: "fährt zum Objekt für technische Präzisierungen;", s2_4_b2: "berät den Assistenz-Ingenieur zu komplexen technischen Fragen;", s2_4_b3: "dokumentiert die Ergebnisse des Besuchs im CRM.",
+      chk_p2_label: "CRM Checkliste (P2)", chk_p2_1: "Objektbesuch für technische Präzisierungen durchgeführt (falls erforderlich)", chk_p2_2: "Beratung des Assistenz-Ingenieurs durchgeführt", chk_p2_3: "Daten im CRM dokumentiert",
+      // s3
+      s3_title: "Objektübernahme und Vorbereitung des Arbeitsbeginns",
+      s3_1_title: "3.1. Objektübernahme über CRM",
+      s3_1_p1: "Nach Vertragsunterzeichnung und Anzahlungseingang übergibt der B2B-Manager das Objekt an die Produktion.",
+      s3_1_p2: "Der Montageleiter:",
+      s3_1_b1: "erhält eine Benachrichtigung oder Aufgabe im CRM;", s3_1_b2: "sieht die Statusänderung des Objekts auf Produktionsstatus;", s3_1_b3: "öffnet die Objektkarte im CRM.",
+      s3_2_title: "3.2. Einarbeitung in das technische Paket",
+      s3_2_p1: "Der Montageleiter ist verpflichtet, alle im CRM verfügbaren Informationen zu prüfen:",
+      s3_2_b1: "technische Aufgabenstellung;", s3_2_b2: "Schemata;", s3_2_b3: "Materialspezifikation;", s3_2_b4: "Arbeitsplan;", s3_2_b5: "Anmerkungen des Assistenz-Ingenieurs;", s3_2_b6: "vom B2B-Manager festgehaltene Vereinbarungen;", s3_2_b7: "Rücksprache mit dem Assistenz-Ingenieur.",
+      s3_2_p2: "Ziel ist es, die Projektlogik vor Arbeitsbeginn zu verstehen — nicht erst während der Ausführung.",
+      s3_3_title: "3.3. Planung der Belegschaft und Logistik",
+      s3_3_p1: "Der Montageleiter organisiert die Produktionsressourcen für den Arbeitsstart:",
+      s3_3_b1: "stellt die Teamzusammensetzung für die Arbeitsausführung zusammen;", s3_3_b2: "bestimmt den verantwortlichen Vorarbeiter am Objekt;", s3_3_b3: "plant Arbeitsarten und deren Ausführungsreihenfolge;", s3_3_b4: "organisiert die Logistik — Anlieferung von Werkzeug und Ausrüstung;", s3_3_b5: "organisiert die Arbeitsbedingungen am Objekt (Raumzugang, Werkzeugaufbewahrung, Sozialeinrichtungen für das Team);", s3_3_b6: "führt eine Einweisung des Teams vor Arbeitsbeginn durch: technische Anforderungen, Unternehmensstandards, Handlungsabfolge;", s3_3_b7: "kontrolliert die Materialanlieferung und deren Startbereitschaft.",
+      s3_4_title: "3.4. Überprüfung der Startbereitschaft",
+      s3_4_p1: "Der Montageleiter prüft:",
+      s3_4_b1: "ob ausreichend technische Informationen für den Start vorliegen;", s3_4_b2: "ob keine kritischen Diskrepanzen in der Dokumentation bestehen;", s3_4_b3: "ob die technischen Lösungen verständlich sind;", s3_4_b4: "ob die Arbeitsmengen aus Objektsicht realistisch sind;", s3_4_b5: "ob Materialien und Team bereit sind.",
+      s3_5_title: "3.5. Rückmeldung vor dem Start",
+      s3_5_p1: "Wenn festgestellt wird: Datenmangel, technische Risiken, potenzielle Fehler, Abweichung des Objekts von der Dokumentation — muss der Montageleiter zwingend:",
+      s3_5_b1: "dies im CRM dokumentieren;", s3_5_b2: "einen Kommentar hinterlassen oder eine Aufgabe erstellen;", s3_5_b3: "die Frage an den Assistenz-Ingenieur oder B2B-Manager weiterleiten.",
+      s3_5_warn: "Eigenständiger Arbeitsstart ohne Klärung kritischer Punkte ist verboten.",
+      s3_6_title: "3.6. Startbereitschaft bestätigen + CRM Checkliste (P3)",
+      s3_6_p1: "Nach Prüfung und Klärung aller Punkte bestätigt der Montageleiter die Bereitschaft zur Anfahrt / zum Arbeitsbeginn und dokumentiert dies im CRM. Ab diesem Moment gilt das Objekt als in Produktion aufgenommen.",
+      chk_p3_label: "CRM Checkliste (P3)", chk_p3_1: "Objekt in Arbeit übernommen", chk_p3_2: "Technische Aufgabenstellung und Pläne geprüft", chk_p3_3: "Rücksprache mit dem Assistenz-Ingenieur gehalten", chk_p3_4: "Teamzusammensetzung festgelegt und Vorarbeiter bestimmt", chk_p3_5: "Einweisung des Teams vor Arbeitsbeginn durchgeführt", chk_p3_6: "Materialbereitschaft vor Arbeitsbeginn geprüft", chk_p3_7: "Arbeitsbedingungen am Objekt organisiert", chk_p3_8: "Startdatum der Arbeiten im CRM dokumentiert",
+      // s4
+      s4_title: "Arbeitsausführung am Objekt (Produktion)",
+      s4_1_title: "4.1. Objektanfahrt und Arbeitsstart",
+      s4_1_p1: "Der Montageleiter:",
+      s4_1_b1: "organisiert die Objektanfahrt und den ersten Arbeitstag des Teams;", s4_1_b2: "prüft den tatsächlichen Objektzustand vor Arbeitsbeginn;", s4_1_b3: "gleicht den Ist-Zustand mit der technischen Aufgabenstellung und den Schemata ab.",
+      s4_1_p2: "Vor dem Start prüft er: Raumzugang, Bereitschaft der Montagezonen, Vorhandensein von Versorgungsleitungen, Möglichkeit der Arbeitsausführung in geplanter Reihenfolge.",
+      s4_1_warn: "Werden kritische Abweichungen festgestellt — beginnen die Arbeiten erst nach CRM-Dokumentation der Situation.",
+      s4_2_title: "4.2. Organisation und Kontrolle der Montagearbeiten",
+      s4_2_p1: "Der Montageleiter steuert den Montageprozess und trägt die Verantwortung für Fristen und Qualität:",
+      s4_2_b1: "kontrolliert die Korrektheit der Systemmontagé gemäß DIN-Normen;", s4_2_b2: "überwacht die Einhaltung der technischen Lösungen gemäß DIN-Normen;", s4_2_b3: "prüft die Ausführungsqualität der Schlüsselknotenpunkte;", s4_2_b4: "stellt die Einhaltung der Arbeitsreihenfolge sicher.",
+      s4_2_p2: "Der Montageleiter ist für das technische Ergebnis verantwortlich, nicht nur für die bloße Ausführung der Arbeiten.",
+      s4_3_title: "4.3. Technische Kommunikation mit dem Auftraggeber-Vertreter",
+      s4_3_p1: "Am Objekt ist der Montageleiter der einzige technische Unternehmensvertreter:",
+      s4_3_b1: "führt die technische Kommunikation mit dem Auftraggeber-Vertreter direkt am Objekt;", s4_3_b2: "beantwortet technische Fragen während der Arbeitsausführung;", s4_3_b3: "informiert den Auftraggeber-Vertreter über den Arbeitsfortschritt und Zwischenergebnisse.",
+      s4_3_warn: "WICHTIG: Der Montageleiter stimmt keine Kosten-, Mengen- oder Friständerungen direkt mit dem Kunden ab. Alle derartigen Fragen werden an den B2B-Manager weitergeleitet.",
+      s4_4_title: "4.4. Kontrolle der Übereinstimmung mit technischer Aufgabe und DIN-Normen",
+      s4_4_p1: "Der Montageleiter vergleicht die tatsächlichen Arbeiten ständig mit der technischen Aufgabenstellung, den Schemata und den Unternehmensstandards. Jede Abweichung wird nicht ignoriert, nicht „still gelöst" und muss zwingend mit der Unternehmensleitung mit Begründung abgestimmt werden.",
+      s4_5_title: "4.5. Materialarbeit am Objekt + CRM Checkliste (P4)",
+      s4_5_p1: "Der Montageleiter kontrolliert die Materialübereinstimmung mit der Spezifikation, die korrekte Verwendung und minimiert Mehrverbrauch. Bei Mangel oder Diskrepanz: dokumentiert, initiiert Abstimmung mit dem Assistenz-Ingenieur und stimmt zwingend mit der Unternehmensleitung mit Begründung ab; trifft keine qualitätsbeeinflussenden Entscheidungen ohne Dokumentation.",
+      chk_p4_label: "CRM Checkliste (P4)", chk_p4_1: "Start der Montagearbeiten im CRM dokumentiert", chk_p4_2: "Laufende Dokumentation des Arbeitsfortschritts (Fotos, Kommentare)", chk_p4_3: "Bei Abweichungen — dokumentiert und an Leitung weitergeleitet", chk_p4_4: "Abschluss der Montagearbeiten im CRM dokumentiert",
+      // s5
+      s5_title: "Zusatzarbeiten",
+      s5_intro: "Zusatzarbeiten sind Arbeiten, die während der Projektausführung entstehen und nicht im ursprünglichen Vertrag enthalten waren. Der Montageleiter ist der Hauptinitiator der Dokumentation solcher Arbeiten.",
+      s5_1_title: "5.1. Erkennung von Zusatzarbeiten",
+      s5_1_p1: "Während der Montage kann der Montageleiter Arbeiten erkennen, die nicht in der technischen Aufgabe vorgesehen, aber für ein qualitatives Ergebnis notwendig sind.",
+      s5_1_p2: "Der Montageleiter:",
+      s5_1_b1: "erkennt die Notwendigkeit von Zusatzarbeiten;", s5_1_b2: "beginnt diese Arbeiten nicht vor deren Genehmigung;", s5_1_b3: "dokumentiert den Sachverhalt unverzüglich im CRM.",
+      s5_2_title: "5.2. Dokumentation und Informationsweitergabe",
+      s5_2_p1: "Der Montageleiter:",
+      s5_2_b1: "beschreibt Art und Umfang der Zusatzarbeiten;", s5_2_b2: "dokumentiert die tatsächlichen Mengen — Fotos, Videos, Schemata;", s5_2_b3: "leitet die Informationen an den Assistenz-Ingenieur zur technischen Analyse und Neuberechnung weiter;", s5_2_b4: "wartet auf die Bestätigung des B2B-Managers vor der Ausführung.",
+      s5_3_title: "5.3. Genehmigung und Ausführung + CRM Checkliste (P5)",
+      s5_3_p1: "Nach der Analyse durch den Assistenz-Ingenieur und der Abstimmung mit dem Kunden durch den B2B-Manager:",
+      s5_3_b1: "erhält Bestätigung zur Ausführung der Zusatzarbeiten über CRM;", s5_3_b2: "führt die Zusatzarbeiten im Rahmen des genehmigten Umfangs aus;", s5_3_b3: "dokumentiert die Ausführung im CRM.",
+      s5_3_warn: "Ausführung von Zusatzarbeiten ohne CRM-Genehmigung ist verboten.",
+      chk_p5_label: "CRM Checkliste (P5)", chk_p5_1: "Notwendigkeit der Zusatzarbeiten im CRM dokumentiert", chk_p5_2: "Fotos / Videos / Schemata zu den Zusatzarbeiten hochgeladen", chk_p5_3: "Informationen an den Assistenz-Ingenieur zur Analyse weitergeleitet", chk_p5_4: "Bestätigung des B2B-Managers erhalten", chk_p5_5: "Ausführung der Zusatzarbeiten im CRM dokumentiert",
+      // s6
+      s6_title: "Technische Entscheidungen, Abweichungen und Änderungen im Arbeitsprozess",
+      s6_1_title: "6.1. Erkennung technischer Abweichungen",
+      s6_1_p1: "Der Montageleiter kann erkennen: Abweichung des Objekts von der Dokumentation, Unmöglichkeit der geplanten Lösung, technische Fehler vorheriger Phasen, verdeckte Objektmängel. Solche Situationen sind normal, müssen aber beherrschbar sein.",
+      s6_2_title: "6.2. Dokumentation von Abweichungen im CRM",
+      s6_2_p1: "Bei Feststellung einer Abweichung:",
+      s6_2_b1: "beschreibt das Problem;", s6_2_b2: "fügt Fotos / Videos hinzu;", s6_2_b3: "gibt an, welchen Punkt der technischen Aufgabe oder der Schemata dies betrifft;", s6_2_b4: "dokumentiert alles im CRM.",
+      s6_3_title: "6.3. Treffen technischer Entscheidungen",
+      s6_3_p1: "Der Montageleiter analysiert Lösungsvarianten, bewertet den Einfluss auf Qualität, Fristen und Arbeitsumfang.",
+      decision_yes_label: "Kann selbstständig entscheiden", decision_yes_text: "Entscheidung beeinflusst nicht die Kosten und Projektlogik",
+      decision_no_label: "Wird an die Leitung weitergeleitet", decision_no_text: "Beeinflusst Arbeitsumfang, Materialien oder Fristen → an Assistenz-Ingenieur und B2B-Manager über CRM",
+      s6_4_title: "6.4. Verbot nicht abgestimmter Änderungen",
+      s6_4_p1: "Dem Montageleiter ist verboten:",
+      s6_4_b1: "technische Lösungen ohne Dokumentation zu ändern;", s6_4_b2: "Entscheidungen „mündlich" zu treffen;", s6_4_b3: "Änderungen direkt mit dem Kunden abzustimmen;", s6_4_b4: "technische Probleme zu verbergen.",
+      s6_4_warn: "Jede nicht dokumentierte Änderung = Risiko für das Unternehmen.",
+      s6_5_title: "6.5. Kommunikation mit anderen Rollen",
+      s6_5_p1: "Alle Kommunikationen des Montageleiters mit dem Assistenz-Ingenieur, dem B2B-Manager und der Leitung erfolgen über CRM oder mit anschließender CRM-Dokumentation. Mündliche Vereinbarungen ohne Systemdokumentation haben keine Gültigkeit.",
+      s6_6_title: "6.6. Aktualisierung der Objektinformationen",
+      s6_6_p1: "Nach jeder wesentlichen Entscheidung oder Änderung aktualisiert der Montageleiter die Informationen im CRM, fügt Erläuterungen hinzu und stellt die Aktualität der Daten für alle Prozessbeteiligten sicher.",
+      s6_6_principle: "CRM ist die einzige Wahrheitsquelle für das Objekt.",
+      // s7
+      s7_title: "Arbeitsabschluss und Objektschließung im CRM",
+      s7_1_title: "7.1. Bestätigung über den Abschluss der Montagearbeiten erhalten",
+      s7_1_p1: "Der Montageleiter erhält vom Vorarbeiter Informationen über: den tatsächlichen Abschluss der Montagearbeiten, die Erfüllung aller Phasen gemäß der technischen Aufgabenstellung, die Behebung der Mängel und die Übergabebereitschaft des Objekts.",
+      s7_2_title: "7.2. Qualitätsprüfung und Inbetriebnahme",
+      s7_2_p1: "Vor der Objektübergabe:",
+      s7_2_b1: "prüft die Qualität der ausgeführten Arbeiten am Objekt;", s7_2_b2: "führt die Inbetriebnahme der Systeme durch — Start, Test, Funktionsprüfung;", s7_2_b3: "behebt festgestellte Mängel;", s7_2_b4: "bestätigt die technische Übergabebereitschaft des Objekts an den Kunden.",
+      s7_3_title: "7.3. Übergabe des Objekts an die technische Aufsicht des Auftraggebers",
+      s7_3_p1: "Falls technische Aufsicht auf Auftraggeberseite vorhanden ist:",
+      s7_3_b1: "übergibt die ausgeführten Arbeiten an die technische Aufsicht des Auftraggebers;", s7_3_b2: "beantwortet technische Fragen zu den ausgeführten Arbeiten;", s7_3_b3: "wird mit Unterschriften im Abnahmeprotokoll vom Auftraggeber-Vertreter dokumentiert;", s7_3_b4: "dokumentiert die Übergabe im CRM.",
+      s7_4_title: "7.4. Erfassung der Ist-Daten zum Objekt",
+      s7_4_p1: "Der Montageleiter stellt die Erfassung und Dokumentation sicher:",
+      s7_4_b1: "technischer Änderungen, die während der Umsetzung aufgetreten sind.",
+      s7_5_title: "7.5. Eingabe der finalen Informationen ins CRM",
+      s7_5_p1: "Der Montageleiter trägt ins CRM ein:",
+      s7_5_b1: "den finalen Ausführungsstatus der Arbeiten;", s7_5_b2: "Informationen zu allen Abweichungen von der ursprünglichen technischen Aufgabenstellung;", s7_5_b3: "die Bestätigung des Abschlusses der Produktionsphase;", s7_5_b4: "genehmigt die tatsächlichen Ausführungsschemata vom Assistenz-Ingenieur.",
+      s7_5_p2: "Bei Bedarf fügt er finale Objektfotos hinzu und heftet Ausführungsschemata an.",
+      s7_6_title: "7.6. Beteiligung an der Objektübergabe an den Kunden (P7)",
+      s7_6_p1: "Bei der vom B2B-Manager organisierten Objektübergabe an den Kunden:",
+      s7_6_b1: "demonstriert die Systeme dem Kunden bei Bedarf;", s7_6_b2: "gibt technische Erläuterungen zu den ausgeführten Arbeiten;", s7_6_b3: "beantwortet technische Fragen des Kunden im Rahmen seiner Kompetenz.",
+      s7_6_warn: "WICHTIG: Kommunikation zu Zahlungen, Dokumenten und Garantieverpflichtungen ist Verantwortungsbereich des B2B-Managers, nicht des Montageleiters.",
+      s7_7_title: "7.7. Weitergabe des Objekts im Prozess",
+      s7_7_p1: "Nach Abschluss der Produktionsphase:",
+      s7_7_b1: "benachrichtigt den B2B-Manager über CRM, dass das Objekt technisch abgeschlossen ist;", s7_7_b2: "bestätigt, dass das Objekt zur finalen Kundenkommunikation bereit ist;", s7_7_b3: "schließt seine Produktionsaufgaben im CRM ab.",
+      s7_8_title: "7.8. Formeller Objektabschluss + CRM Checkliste (P6)",
+      s7_8_p1: "Der Montageleiter:",
+      s7_8_b1: "ändert den Objektstatus im CRM auf „Produktionell abgeschlossen / Technisch geschlossen";", s7_8_b2: "hinterlässt den finalen technischen Kommentar;", s7_8_b3: "schließt alle seine Objektaufgaben ab.",
+      s7_8_p2: "Damit ist die Beteiligung des Montageleiters in der aktiven Projektphase abgeschlossen.",
+      chk_p6_label: "CRM Checkliste (P6)", chk_p6_1: "Qualität der ausgeführten Arbeiten am Objekt geprüft", chk_p6_2: "Inbetriebnahme der Systeme durchgeführt", chk_p6_3: "Abnahmeprotokoll mit dem Auftraggeber-Vertreter unterzeichnet", chk_p6_4: "Ausführungsschemata des Assistenz-Ingenieurs genehmigt", chk_p6_5: "Finale Daten und Fotos ins CRM eingetragen", chk_p6_6: "B2B-Manager über Abschluss der Produktionsphase informiert", chk_p6_7: "Objektstatus auf „Technisch geschlossen" geändert",
+      // s8
+      s8_title: "KPI des Montageleiters",
+      s8_intro: "Ziel des Abschnitts: Messbare Leistungsindikatoren für die Arbeit des Montageleiters zur Ergebnisbewertung und Qualitätskontrolle festhalten.",
+      kpi1_label: "Übereinstimmung des vertraglichen Arbeitsbeginns mit dem tatsächlichen", kpi1_cat: "8.1 · Startvorbereitung",
+      kpi2_label: "Ausgeführte Arbeiten gemäß Montagezeitplan", kpi2_cat: "8.2 · Arbeitsausführung",
+      kpi3_label: "Objekte mit vollständiger CRM-Dokumentation des Arbeitsfortschritts", kpi3_cat: "8.3 · CRM-Arbeit",
+      kpi4_label: "Im CRM dokumentierte Abweichungen von der Gesamtzahl der festgestellten", kpi4_cat: "8.3 · Abweichungsdokumentation",
+      kpi5_label: "Objekte, die im CRM innerhalb von 1 Werktag nach Arbeitsabschluss technisch geschlossen wurden", kpi5_cat: "8.4 · Objektabschluss",
+      kpi_note: "Hinweis: KPIs werden vom Leiter auf Basis der CRM-Daten verfolgt. Der Montageleiter trägt die Verantwortung für Vollständigkeit und Aktualität der Dateneingabe ins System.",
+      // misc
+      print: "Drucken"
+    },
+    ru: {
+      // nav
+      nav_intro: "Введение", nav_s1: "Место в процессе", nav_s2: "До производства",
+      nav_s3: "Получение объекта", nav_s4: "Выполнение работ", nav_s5: "Доп. работы",
+      nav_s6: "Отклонения", nav_s7: "Завершение", nav_s8: "KPI",
+      // hero
+      hero_badge: "Должностная инструкция",
+      hero_span: "– organisiert Montageabläufe und Personal",
+      hero_sub: "Должностная инструкция и модель производственных процессов · SKYBUD",
+      hero_version: "Версия V1",
+      // timeline
+      tl_title: "Участие Montageleiters в воронке CRM",
+      tl_l3: "Бриф\n(выезд)", tl_c5: "Расчёт\n(консульт.)", tl_c9: "График\n(консульт.)", tl_p2: "Проектир.\n(выезд)",
+      tl_p3: "Подготовка\nк старту", tl_p4: "Монтаж", tl_p5: "Доп.\nработы", tl_p6: "Завершение\nработ", tl_p7: "Сдача\nклиенту",
+      tl_legend_main: "Основная роль", tl_legend_opt: "При необходимости",
+      // intro
+      s0_title: "Введение",
+      intro_p1: "Montageleiter — это производственная техническая должность компании, которая отвечает за фактическую реализацию проектов на строительных объектах, соблюдение технического задания, контроль качества выполнения работ и техническое закрытие объектов.",
+      intro_p2: "Роль Montageleiters является ключевой в производственной цепочке компании. Montageleiter участвует в проекте начиная с этапа сбора исходных данных (при необходимости) и заканчивает участие после технического закрытия объекта в CRM.",
+      intro_p3: "Montageleiter:",
+      intro_b1: "работает непосредственно на объектах или в плотном взаимодействии с ними;",
+      intro_b2: "принимает технические решения в процессе выполнения работ;",
+      intro_b3: "фиксирует фактическое состояние, отклонения и результаты работ;",
+      intro_b4: "обеспечивает соответствие выполнения работ техническому заданию и стандартам компании.",
+      intro_p4: "Montageleiter не занимается продажами, коммерческими переговорами или формированием коммерческих предложений. Все вопросы стоимости, договоров и оплат координируются менеджером B2B. Все технические расчеты, схемы и спецификации готовятся инженером-ассистентом.",
+      intro_p5: "CRM-система является обязательным рабочим инструментом Montageleiters. Через CRM Montageleiter получает информацию об объекте, предоставляет обратную связь, фиксирует ход работ и технические решения, закрывает объект после завершения работ.",
+      // s1
+      s1_title: "Место Montageleiters в общем бизнес-процессе",
+      s1_1_title: "1.1. Роль Montageleiters в цепочке реализации проекта",
+      s1_1_p1: "Компания работает по четко разделенной модели ответственности:",
+      role_b2b_name: "Менеджер B2B", role_b2b_1: "привлечение клиента;", role_b2b_2: "коммуникация;", role_b2b_3: "коммерческое предложение;", role_b2b_4: "договор и оплаты.",
+      role_eng_name: "Инженер-ассистент", role_eng_1: "технический анализ;", role_eng_2: "расчеты;", role_eng_3: "схемы;", role_eng_4: "спецификации;", role_eng_5: "подготовка технического пакета.",
+      role_ml_name: "Montageleiter ← вы", role_ml_1: "реализация проекта на объекте;", role_ml_2: "фактическое выполнение работ;", role_ml_3: "технический контроль;", role_ml_4: "фиксация реального состояния;", role_ml_5: "техническое закрытие объекта.",
+      s1_1_p2: "Montageleiter является финальным техническим звеном, которое превращает документацию и планы в выполненный результат.",
+      s1_2_title: "1.2. Основная зона ответственности Montageleiters",
+      s1_2_p1: "Montageleiter несёт полную ответственность за организацию, координацию и технический результат выполнения монтажных и сервисных работ на объекте.",
+      s1_2_p2: "В рамках своей роли он обеспечивает:",
+      s1_2_b1: "соответствие выполненных работ техническому заданию и проектной документации;",
+      s1_2_b2: "корректность и технологичность монтажа всех систем в соответствии с установленными стандартами;",
+      s1_2_b3: "системный контроль качества работ на всех этапах выполнения;",
+      s1_2_b4: "своевременное выявление, фиксацию и эскалацию технических отклонений;",
+      s1_2_b5: "оперативное информирование о рисках, проблемах и возможных задержках;",
+      s1_2_b6: "точный учёт фактически выполненных объёмов работ и использованных материалов;",
+      s1_2_b7: "корректное техническое закрытие объекта и ведение данных в CRM-системе.",
+      s1_2_p3: "Montageleiter управляет процессом, а не выполняет работы самостоятельно. Его ключевая задача — обеспечить эффективную реализацию проекта и достижение конечного результата.",
+      s1_2_p4: "В операционной деятельности он:",
+      s1_2_c1: "планирует, организует и контролирует выполнение монтажных и сервисных работ;",
+      s1_2_c2: "координирует работу монтажных бригад, обеспечивая их слаженное взаимодействие;",
+      s1_2_c3: "контролирует сроки, качество и итоговый результат выполнения задач;",
+      s1_2_c4: "выступает основным техническим контактным лицом для клиента;",
+      s1_2_c5: "выстраивает структурированную работу и обеспечивает соблюдение процессов;",
+      s1_2_c6: "несёт ответственность за полную техническую реализацию проекта;",
+      s1_2_c7: "действует как координатор и технический руководитель, а не как исполнитель работ;",
+      s1_2_c8: "ориентирован на долгосрочное сотрудничество, стабильность процессов и качество реализации проектов.",
+      s1_2_principle: "Ответственность за процесс и конечный результат — включая людей, сроки, качество и техническую реализацию.",
+      s1_3_title: "1.3. Границы ответственности Montageleiters",
+      s1_3_p1: "Montageleiter не отвечает за:",
+      s1_3_b1: "продажу услуг;", s1_3_b2: "формирование коммерческого предложения;", s1_3_b3: "переговоры о стоимости;", s1_3_b4: "подписание договоров;", s1_3_b5: "получение оплат от клиента.",
+      s1_3_p2: "Все вопросы, выходящие за пределы технической реализации, Montageleiter передает: инженеру-ассистенту — если вопрос технический; менеджеру B2B — если вопрос коммерческий или клиентский.",
+      s1_4_title: "1.4. Принцип работы Montageleiters",
+      s1_4_quote: "«Факт важнее предположения»",
+      s1_4_p1: "Все действия, решения и изменения фиксируются, аргументируются и вносятся в CRM.",
+      s1_4_p2: "Работа, которая не зафиксирована в CRM, считается невыполненной.",
+      // s2
+      s2_title: "Участие Montageleiters на дооперационных этапах",
+      s2_intro: "Montageleiter подключается к проекту до стадии производства в случаях, когда для принятия решений необходима техническая экспертиза непосредственно с объекта или из практического опыта.",
+      s2_1_title: "2.1. Выезд на объект на этапе сбора брифа (L3)",
+      s2_1_p1: "Если менеджер B2B не может собрать достаточно исходных данных дистанционно, Montageleiter осуществляет выезд на объект.",
+      s2_1_p2: "Montageleiter:",
+      s2_1_b1: "выезжает на объект для первичного технического осмотра;", s2_1_b2: "фиксирует фактические размеры и параметры объекта;", s2_1_b3: "делает фото и видео для технической документации;", s2_1_b4: "передаёт собранные данные инженеру-ассистенту через CRM.",
+      chk_l3_label: "CRM Чек-лист (L3)", chk_l3_1: "Осуществил выезд на объект", chk_l3_2: "Зафиксировал размеры и параметры объекта", chk_l3_3: "Добавил фото и видео объекта в карточку CRM", chk_l3_4: "Передал данные инженеру-ассистенту",
+      s2_2_title: "2.2. Технические консультации при расчёте (C5)",
+      s2_2_p1: "При подготовке сметы инженер-ассистент может запрашивать у Montageleiters практическую экспертизу.",
+      s2_2_p2: "Montageleiter:",
+      s2_2_b1: "предоставляет технические консультации инженеру-ассистенту по сложным узлам или нестандартным решениям;", s2_2_b2: "уточняет реалистичные трудозатраты (человеко-часы) на основе практического опыта;", s2_2_b3: "фиксирует свои консультации в CRM при необходимости.",
+      s2_3_title: "2.3. Консультации при составлении графика (C9)",
+      s2_3_p1: "После согласования коммерческого предложения инженер-ассистент формирует график работ. Montageleiter подключается при необходимости.",
+      s2_3_p2: "Montageleiter:",
+      s2_3_b1: "консультирует инженера-ассистента по реалистичным срокам выполнения отдельных этапов;", s2_3_b2: "вносит корректировки в график на основе практического опыта и специфики объекта;", s2_3_b3: "несёт ответственность за разработку и актуализацию графика выполнения работ с учётом сроков проекта и ресурсов;", s2_3_b4: "осуществляет контроль соблюдения монтажными бригадами установленных сроков в соответствии с утверждённым графиком.",
+      s2_4_title: "2.4. Технический выезд и консультации при проектировании (P2)",
+      s2_4_p1: "На этапе технического проектирования инженер-ассистент может потребовать дополнительных данных непосредственно с объекта.",
+      s2_4_p2: "Montageleiter:",
+      s2_4_b1: "осуществляет выезд на объект для технических уточнений;", s2_4_b2: "консультирует инженера-ассистента по сложным техническим вопросам;", s2_4_b3: "фиксирует результаты выезда в CRM.",
+      chk_p2_label: "CRM Чек-лист (P2)", chk_p2_1: "Осуществил выезд для технических уточнений (если требовался)", chk_p2_2: "Предоставил консультацию инженеру-ассистенту", chk_p2_3: "Зафиксировал данные в CRM",
+      // s3
+      s3_title: "Получение объекта и подготовка к старту работ",
+      s3_1_title: "3.1. Получение объекта через CRM",
+      s3_1_p1: "После подписания договора и получения аванса менеджер B2B передаёт объект в производство.",
+      s3_1_p2: "Montageleiter:",
+      s3_1_b1: "получает уведомление или задачу в CRM;", s3_1_b2: "видит изменение статуса объекта на производственный;", s3_1_b3: "открывает карточку объекта в CRM.",
+      s3_2_title: "3.2. Ознакомление с техническим пакетом",
+      s3_2_p1: "Montageleiter обязан ознакомиться со всей доступной информацией в CRM:",
+      s3_2_b1: "техническим заданием;", s3_2_b2: "схемами;", s3_2_b3: "спецификацией материалов;", s3_2_b4: "планом работ;", s3_2_b5: "комментариями инженера-ассистента;", s3_2_b6: "договорённостями, зафиксированными менеджером B2B;", s3_2_b7: "проводит консультации с инженером-ассистентом.",
+      s3_2_p2: "Цель — понять логику проекта до начала работ, а не в процессе.",
+      s3_3_title: "3.3. Планирование бригады и логистики",
+      s3_3_p1: "Montageleiter организует производственные ресурсы для старта работ:",
+      s3_3_b1: "формирует состав бригады для выполнения работ;", s3_3_b2: "назначает ответственного бригадира на объекте;", s3_3_b3: "планирует виды работ и последовательность их выполнения;", s3_3_b4: "организует логистику — доставку инструментов и оборудования;", s3_3_b5: "организует условия работы на объекте (доступ к помещениям, хранение инструментов, бытовые условия для бригады);", s3_3_b6: "проводит инструктаж бригады перед началом работ: технические требования, стандарты компании, последовательность действий;", s3_3_b7: "контролирует доставку материалов и их готовность к старту.",
+      s3_4_title: "3.4. Проверка готовности к старту",
+      s3_4_p1: "Montageleiter проверяет:",
+      s3_4_b1: "достаточно ли технической информации для старта;", s3_4_b2: "нет ли критических несоответствий в документации;", s3_4_b3: "понятны ли технические решения;", s3_4_b4: "реалистичны ли объемы работ с точки зрения объекта;", s3_4_b5: "готовы ли материалы и бригада.",
+      s3_5_title: "3.5. Обратная связь перед стартом",
+      s3_5_p1: "Если выявлено: недостаток данных, технические риски, потенциальные ошибки, несоответствие объекта документации — Montageleiter обязательно:",
+      s3_5_b1: "фиксирует это в CRM;", s3_5_b2: "оставляет комментарий или создаёт задачу;", s3_5_b3: "передаёт вопрос инженеру-ассистенту или менеджеру B2B.",
+      s3_5_warn: "Самостоятельный старт работ без прояснения критических моментов запрещён.",
+      s3_6_title: "3.6. Подтверждение готовности к старту + CRM Чек-лист (P3)",
+      s3_6_p1: "После проверки и уточнения всех моментов Montageleiter подтверждает готовность к выезду / началу работ и фиксирует это в CRM. С этого момента объект считается принятым в производство.",
+      chk_p3_label: "CRM Чек-лист (P3)", chk_p3_1: "Принял объект в работу", chk_p3_2: "Ознакомился с техническим заданием и чертежами", chk_p3_3: "Провёл консультацию с инженером-ассистентом", chk_p3_4: "Сформировал состав бригады и назначил бригадира", chk_p3_5: "Провёл инструктаж бригады перед началом работ", chk_p3_6: "Проверил готовность материалов к началу работ", chk_p3_7: "Организовал условия работы на объекте", chk_p3_8: "Зафиксировал дату старта работ в CRM",
+      // s4
+      s4_title: "Выполнение работ на объекте (Производство)",
+      s4_1_title: "4.1. Выезд на объект и старт работ",
+      s4_1_p1: "Montageleiter:",
+      s4_1_b1: "организует выезд на объект и первый рабочий день бригады;", s4_1_b2: "проверяет фактическое состояние объекта перед началом работ;", s4_1_b3: "сверяет реальное состояние объекта с техническим заданием и схемами.",
+      s4_1_p2: "Перед стартом проверяет: доступ к помещениям, готовность зон монтажа, наличие коммуникаций, возможность выполнения работ в запланированной последовательности.",
+      s4_1_warn: "Если выявлены критические расхождения — работы не начинаются до фиксации ситуации в CRM.",
+      s4_2_title: "4.2. Организация и контроль монтажных работ",
+      s4_2_p1: "Montageleiter управляет процессом монтажа и несёт ответственность за сроки и качество:",
+      s4_2_b1: "контролирует правильность монтажа систем согласно DIN-Normen;", s4_2_b2: "следит за соблюдением технических решений согласно DIN-Normen;", s4_2_b3: "проверяет качество выполнения ключевых узлов;", s4_2_b4: "обеспечивает соблюдение последовательности работ.",
+      s4_2_p2: "Montageleiter отвечает за технический результат, а не только за факт выполнения работ.",
+      s4_3_title: "4.3. Техническая коммуникация с представителем заказчика",
+      s4_3_p1: "На объекте Montageleiter является единственным техническим представителем компании:",
+      s4_3_b1: "ведёт техническую коммуникацию с представителем заказчика непосредственно на объекте;", s4_3_b2: "отвечает на технические вопросы по ходу выполнения работ;", s4_3_b3: "информирует представителя заказчика о ходе работ и промежуточных результатах.",
+      s4_3_warn: "ВАЖНО: Montageleiter не согласовывает изменения стоимости, объёмов или сроков напрямую с клиентом. Все подобные вопросы передаются менеджеру B2B.",
+      s4_4_title: "4.4. Контроль соответствия ТЗ и стандартам согласно DIN-Normen",
+      s4_4_p1: "Montageleiter постоянно сравнивает фактические работы с техническим заданием, схемами и стандартами компании. Любое отклонение не игнорируется, не «решается молча» и обязательно согласовывается с руководством компании с разъяснением причины.",
+      s4_5_title: "4.5. Работа с материалами на объекте + CRM Чек-лист (P4)",
+      s4_5_p1: "Montageleiter контролирует соответствие материалов спецификации, корректность использования, минимизацию перерасхода. В случае нехватки или несоответствия: фиксирует, инициирует уточнение с инженером-ассистентом и обязательно согласовывается с руководством компании с разъяснением причины, не принимает решения, влияющие на качество, без фиксации.",
+      chk_p4_label: "CRM Чек-лист (P4)", chk_p4_1: "Зафиксировал старт монтажных работ в CRM", chk_p4_2: "Ведёт текущую фиксацию хода работ (фото, комментарии)", chk_p4_3: "Если возникли отклонения — зафиксировал и передал руководству", chk_p4_4: "Зафиксировал завершение монтажных работ в CRM",
+      // s5
+      s5_title: "Дополнительные работы",
+      s5_intro: "Дополнительные работы — это работы, которые возникают в процессе выполнения проекта и не были включены в изначальный договор. Montageleiter является ключевым инициатором фиксации таких работ.",
+      s5_1_title: "5.1. Выявление дополнительных работ",
+      s5_1_p1: "В ходе монтажа Montageleiter может выявить работы, не предусмотренные ТЗ, но необходимые для качественного результата.",
+      s5_1_p2: "Montageleiter:",
+      s5_1_b1: "выявляет необходимость дополнительных работ;", s5_1_b2: "не приступает к этим работам до их согласования;", s5_1_b3: "незамедлительно фиксирует факт в CRM.",
+      s5_2_title: "5.2. Фиксация и передача информации",
+      s5_2_p1: "Montageleiter:",
+      s5_2_b1: "описывает суть и объём дополнительных работ;", s5_2_b2: "фиксирует фактические объёмы — фото, видео, схемы;", s5_2_b3: "передаёт информацию инженеру-ассистенту для технического анализа и перерасчёта;", s5_2_b4: "ожидает подтверждения от B2B менеджера перед выполнением.",
+      s5_3_title: "5.3. Согласование и выполнение + CRM Чек-лист (P5)",
+      s5_3_p1: "После анализа инженером-ассистентом и согласования с клиентом менеджером B2B Montageleiter:",
+      s5_3_b1: "получает подтверждение на выполнение дополнительных работ через CRM;", s5_3_b2: "выполняет дополнительные работы в рамках согласованного объёма;", s5_3_b3: "фиксирует факт выполнения в CRM.",
+      s5_3_warn: "Выполнение дополнительных работ без согласования через CRM запрещено.",
+      chk_p5_label: "CRM Чек-лист (P5)", chk_p5_1: "Зафиксировал необходимость дополнительных работ в CRM", chk_p5_2: "Добавил фото / видео / схемы по дополнительным работам", chk_p5_3: "Передал информацию инженеру-ассистенту для анализа", chk_p5_4: "Получил подтверждение от B2B менеджера", chk_p5_5: "Зафиксировал выполнение дополнительных работ в CRM",
+      // s6
+      s6_title: "Технические решения, отклонения и изменения в процессе работ",
+      s6_1_title: "6.1. Выявление технических отклонений",
+      s6_1_p1: "Montageleiter может выявить: несоответствие объекта документации, невозможность выполнить запланированное решение, технические ошибки предыдущих этапов, скрытые дефекты объекта. Такие ситуации являются нормальными, но должны быть управляемыми.",
+      s6_2_title: "6.2. Фиксация отклонений в CRM",
+      s6_2_p1: "При выявлении отклонения Montageleiter:",
+      s6_2_b1: "описывает суть проблемы;", s6_2_b2: "добавляет фото / видео;", s6_2_b3: "указывает, на какой пункт ТЗ или схем это влияет;", s6_2_b4: "фиксирует всё в CRM.",
+      s6_3_title: "6.3. Принятие технических решений",
+      s6_3_p1: "Montageleiter анализирует варианты решения, оценивает влияние на качество, сроки и объём работ.",
+      decision_yes_label: "Может решить самостоятельно", decision_yes_text: "Решение не влияет на стоимость и логику проекта",
+      decision_no_label: "Передаётся руководству", decision_no_text: "Влияет на объём работ, материалы или сроки → инженеру-ассистенту и менеджеру B2B через CRM",
+      s6_4_title: "6.4. Запрет несогласованных изменений",
+      s6_4_p1: "Montageleiter запрещено:",
+      s6_4_b1: "изменять техническое решение без фиксации;", s6_4_b2: "принимать решения «на словах»;", s6_4_b3: "согласовывать с клиентом любые изменения напрямую;", s6_4_b4: "скрывать технические проблемы.",
+      s6_4_warn: "Любое незафиксированное изменение = риск для компании.",
+      s6_5_title: "6.5. Коммуникация с другими ролями",
+      s6_5_p1: "Все коммуникации Montageleiters с инженером-ассистентом, менеджером B2B и руководством ведутся через CRM или с последующей фиксацией в CRM. Устные договорённости без фиксации в системе не имеют силы.",
+      s6_6_title: "6.6. Актуализация информации по объекту",
+      s6_6_p1: "После каждого существенного решения или изменения Montageleiter обновляет информацию в CRM, добавляет пояснения и обеспечивает актуальность данных для всех участников процесса.",
+      s6_6_principle: "CRM — единственный источник правды по объекту.",
+      // s7
+      s7_title: "Завершение работ и закрытие объекта в CRM",
+      s7_1_title: "7.1. Получение подтверждения о завершении монтажных работ",
+      s7_1_p1: "Montageleiter получает от бригадира информацию о: фактическом завершении монтажных работ, выполнении всех этапов согласно ТЗ, устранении замечаний и готовности объекта к сдаче.",
+      s7_2_title: "7.2. Проверка качества и пусконаладка",
+      s7_2_p1: "Перед сдачей объекта Montageleiter:",
+      s7_2_b1: "проверяет качество выполненных работ на объекте;", s7_2_b2: "выполняет пусконаладку систем — запуск, тестирование, проверка корректной работы;", s7_2_b3: "устраняет выявленные замечания;", s7_2_b4: "подтверждает техническую готовность объекта к сдаче клиенту.",
+      s7_3_title: "7.3. Передача объекта техническому надзору заказчика",
+      s7_3_p1: "При наличии технического надзора на стороне заказчика Montageleiter:",
+      s7_3_b1: "передаёт выполненные работы техническому надзору заказчика;", s7_3_b2: "отвечает на технические вопросы по выполненным работам;", s7_3_b3: "фиксируется подписями в Abnahmeprotokoll представителем заказчика;", s7_3_b4: "фиксирует факт передачи в CRM.",
+      s7_4_title: "7.4. Сбор фактических данных по объекту",
+      s7_4_p1: "Montageleiter обеспечивает сбор и фиксацию:",
+      s7_4_b1: "технических изменений, которые произошли в процессе реализации.",
+      s7_5_title: "7.5. Внесение финальной информации в CRM",
+      s7_5_p1: "Montageleiter вносит в CRM:",
+      s7_5_b1: "финальный статус выполнения работ;", s7_5_b2: "информацию обо всех отклонениях от первоначального ТЗ;", s7_5_b3: "подтверждение завершения производственной части;", s7_5_b4: "утверждает фактические исполнительные схемы от инженера-ассистента.",
+      s7_5_p2: "При необходимости добавляет финальные фото объекта и прикрепляет исполнительные схемы.",
+      s7_6_title: "7.6. Участие в сдаче объекта клиенту (P7)",
+      s7_6_p1: "При организации сдачи объекта клиенту менеджером B2B Montageleiter:",
+      s7_6_b1: "демонстрирует системы клиенту при необходимости;", s7_6_b2: "предоставляет технические пояснения по выполненным работам;", s7_6_b3: "отвечает на технические вопросы клиента в рамках своей компетенции.",
+      s7_6_warn: "ВАЖНО: Коммуникация по оплатам, документам и гарантийным обязательствам — зона ответственности менеджера B2B, не Montageleiter.",
+      s7_7_title: "7.7. Передача объекта далее по процессу",
+      s7_7_p1: "После закрытия производственной части Montageleiter:",
+      s7_7_b1: "уведомляет менеджера B2B через CRM, что объект технически завершён;", s7_7_b2: "подтверждает, что объект готов к финальной коммуникации с клиентом;", s7_7_b3: "закрывает свои производственные задачи в CRM.",
+      s7_8_title: "7.8. Формальное закрытие объекта + CRM Чек-лист (P6)",
+      s7_8_p1: "Montageleiter:",
+      s7_8_b1: "изменяет статус объекта в CRM на «Производственно завершено / Технически закрыто»;", s7_8_b2: "оставляет финальный технический комментарий;", s7_8_b3: "закрывает все свои задачи по объекту.",
+      s7_8_p2: "На этом участие Montageleiters в активной фазе проекта завершено.",
+      chk_p6_label: "CRM Чек-лист (P6)", chk_p6_1: "Проверил качество выполненных работ на объекте", chk_p6_2: "Выполнил пусконаладку систем", chk_p6_3: "Подписал Abnahmeprotokoll с представителем заказчика", chk_p6_4: "Утвердил исполнительные схемы от инженера-ассистента", chk_p6_5: "Внёс финальные данные и фото в CRM", chk_p6_6: "Уведомил менеджера B2B о завершении производственной части", chk_p6_7: "Изменил статус объекта на «Технически закрыто»",
+      // s8
+      s8_title: "KPI Montageleiters",
+      s8_intro: "Цель раздела: Зафиксировать измеримые показатели эффективности работы Montageleiters для оценки результативности и контроля качества.",
+      kpi1_label: "Совпадение договорной даты начала работ с фактической", kpi1_cat: "8.1 · Подготовка к старту",
+      kpi2_label: "Выполненных работ в соответствии с графиком монтажа", kpi2_cat: "8.2 · Выполнение работ",
+      kpi3_label: "Объектов с полной фиксацией хода работ в CRM", kpi3_cat: "8.3 · Работа с CRM",
+      kpi4_label: "Отклонений, зафиксированных в CRM от общего числа выявленных", kpi4_cat: "8.3 · Фиксация отклонений",
+      kpi5_label: "Объектов, технически закрытых в CRM в течение 1 рабочего дня после завершения работ", kpi5_cat: "8.4 · Завершение объектов",
+      kpi_note: "Примечание: KPI отслеживаются руководителем на основе данных CRM. Montageleiter несёт ответственность за полноту и своевременность внесения данных в систему.",
+      // misc
+      print: "Drucken"
+    }
+  };
+
+  let currentLang = 'de';
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang] && translations[lang][key] !== undefined) {
+        el.textContent = translations[lang][key];
+      }
+    });
+    document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+    document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => setLang('de'));
+  // ────────────────────────────────────────────────────────────────────────────
+
   function toggleSection(header) {
     header.closest('.section-card').classList.toggle('open');
   }
@@ -1239,5 +1695,3 @@
 </script>
 </body>
 </html>
-
-</body>
